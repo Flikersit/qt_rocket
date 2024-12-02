@@ -10,19 +10,14 @@ RocketScene::RocketScene(){
     setSceneRect(0, 0, width, height);
 }
 
-RocketScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setRenderHint(QPainter::Antialiasing);
+RocketScene::paint_platforms(){
 
-    
-    painter->setBrush(Qt::brown);
     QGraphicsRectItem *rect_1 = new QGraphicsRectItem(0, 0, 5, 10);
     QGraphicsRectItem *rect_2 = new QGraphicsRectItem(0, 0, 5, 10);
 
     rect_1->setBrush(Qt::brown);
     rect_2->setBrush(Qt::brown);
 
-    rect_1->setRenderHint(QPainter::Antialiasing);
-    rect_2->setRenderHint(QPainter::Antialiasing);
 
     rect_1->setPos(launchPadOffSet, 0);
     rect_2->setPos(width-launchPadOffSet, 0);
@@ -33,9 +28,6 @@ RocketScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     rect_3->setBrush(Qt::gray);
     rect_4->setBrush(Qt::gray);
 
-    rect_3->setRenderHint(QPainter::Antialiasing);
-    rect_4->setRenderHint(QPainter::Antialiasing);
-
     rect_3->setPos(width-launchPadOffSet, 10);
     rect_4->setPos(width-launchPadOffSet, 10);
 
@@ -43,5 +35,11 @@ RocketScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     addItem(rect_2);
     addItem(rect_3);
     addItem(rect_4);
+
+}
+
+RocketScene::reset(){
+    paint_platforms()
+    
 }
 

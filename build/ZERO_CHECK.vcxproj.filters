@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\qt_rocket\build\CMakeFiles\74f0af847a3d06bfcff96f5fff46d315\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8D4A84A8-EB15-3816-BF53-06C7620536F9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

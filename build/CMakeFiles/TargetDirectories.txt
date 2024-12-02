@@ -1,0 +1,3 @@
+D:/qt_rocket/build/CMakeFiles/hello_world_qt.dir
+D:/qt_rocket/build/CMakeFiles/ALL_BUILD.dir
+D:/qt_rocket/build/CMakeFiles/ZERO_CHECK.dir

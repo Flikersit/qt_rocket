@@ -1,0 +1,10 @@
+^D:\QT_ROCKET\BUILD\CMAKEFILES\74F0AF847A3D06BFCFF96F5FFF46D315\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/qt_rocket -BD:/qt_rocket/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/qt_rocket/build/hello_world_qt.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -9,10 +9,11 @@ class RocketScene: public QGraphicsScene{
     public:
         RocketScene();
 
-        void paint_platforms(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget);
+        void paint_platforms();
 
         int launchPadOffSet;
+
+        void reset();
 
     private:
         int height;
