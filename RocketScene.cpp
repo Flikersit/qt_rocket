@@ -11,13 +11,11 @@ RocketScene::RocketScene(){
 }
 
 RocketScene::paint_platforms(){
-
     QGraphicsRectItem *rect_1 = new QGraphicsRectItem(0, 0, 5, 10);
     QGraphicsRectItem *rect_2 = new QGraphicsRectItem(0, 0, 5, 10);
 
-    rect_1->setBrush(Qt::brown);
-    rect_2->setBrush(Qt::brown);
-
+    rect_1->setBrush(QColor(165, 42, 42));
+    rect_2->setBrush(QColor(165, 42, 42));
 
     rect_1->setPos(launchPadOffSet, 0);
     rect_2->setPos(width-launchPadOffSet, 0);
@@ -35,11 +33,9 @@ RocketScene::paint_platforms(){
     addItem(rect_2);
     addItem(rect_3);
     addItem(rect_4);
-
 }
 
 RocketScene::reset(){
-    paint_platforms()
     
 }
 
