@@ -6,18 +6,20 @@
 
 class RocketScene: public QGraphicsScene{
 
-    public:
-        RocketScene();
+    Q_OBJECT
 
-        void paint_platforms();
+public:
+    RocketScene();
 
-        void reset();
+    void paint_platforms();
 
-        int launchPadOffSet;
+    void reset();
 
-    private:
-        int height;
-        int width;
-}
+    int launchPadOffSet;
+
+private:
+    int height;
+    int width;
+};
 
 #endif
