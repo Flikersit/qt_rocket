@@ -11,9 +11,9 @@ class RocketScene: public QGraphicsScene{
 
         void paint_platforms();
 
-        int launchPadOffSet;
-
         void reset();
+
+        int launchPadOffSet;
 
     private:
         int height;
