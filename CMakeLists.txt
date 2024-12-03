@@ -9,6 +9,7 @@ qt_add_executable(hello_world_qt
     main.cpp
     RocketObject.cpp RocketObject.h
     RocketScene.cpp RocketScene.h
+    ControlPanel.cpp ControlPanel.h
 )
 
 set_target_properties(hello_world_qt PROPERTIES
@@ -21,4 +22,3 @@ target_link_libraries(hello_world_qt PRIVATE
     Qt6::Gui
     Qt6::Widgets
 )
-
