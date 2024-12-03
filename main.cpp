@@ -1,24 +1,27 @@
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include "RocketObject.h"
-#include "RocketScene.h"
+#include <QWidget>
+#include <QHBoxLayout>
+#include "ControlPanel.h"
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    QGraphicsScene scene;
-    scene.setSceneRect(-200, -200, 400, 400);
+    QWidget *mainWindow = new QWidget();
+    mainWindow->setWindowTitle("Rocket");
+    mainWindow->resize(800, 600);
 
-    RocketScene *rscene = new RocketScene();
-    scene.addItem(rscene);
+    RocketScene *rScene = new RocketScene();
+    RocketObject *rObject = new RocketObject();
+    ControlPanel *rPanel = new ControlPanel(nullptr, rObject, rScene);
 
-    QGraphicsView view(&rscene);
-    view.setRenderHint(QPainter::Antialiasing);
-    view.setWindowTitle("Rocket");
-    view.resize(800, 600);
-    view.show();
+    QHBoxLayout *mainLayout = new QHBoxLayout(mainWindow);
+
+    mainWindow->setLayout(mainLayout);
+
+    mainWindow->show();
 
     return app.exec();
 }
