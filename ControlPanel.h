@@ -1,4 +1,3 @@
-
 #include <QtGui>
 #include <QWidget>
 #include <QTimer>
@@ -21,12 +20,24 @@ signals:
     void resetSimulation();
 
 private:
-    QSlider *thrustSlider;    // 
+    QNetworkAccessManager* networkManager;
+
+    QSlider *thrustSlider;    //
+
     QPushButton *leftButton; // Left engine
     QPushButton *rightButton; // Right engine
     QPushButton *resetButton; // Restart 
+
     QLabel *statusLabel;      // Status display
+    QLabel *connection;      // connection label
     
+    QTimer timer;
+
+private slots:
+    void requestData();
+    void onDataReceived();
+    void onError(QNetworkReply::NetworkError code);
+
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
