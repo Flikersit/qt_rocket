@@ -1,11 +1,14 @@
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include "ControlPanel.h"
 
 
 
-ControlPanel::ControlPanel(QWidget *parent = nullptr, RocketObject *rocket, RocketScene *scene){
+ControlPanel::ControlPanel(QWidget *parent, RocketObject *rocket, RocketScene *scene){
 
-    this.rocket = rocket;
-    this.scene = scene;
+    this->rocket = rocket;
+    this->scene = scene;
 
     resetButton = new QPushButton("Reset");
     leftButton = new QPushButton("Left");
@@ -32,8 +35,8 @@ ControlPanel::ControlPanel(QWidget *parent = nullptr, RocketObject *rocket, Rock
     networkManager = new QNetworkAccessManager(this);
     
 
-    connect(&resetButton, &QPushButton::released, this, &ControlPanel::resetSimulation);
-    connect(&timer, &QTimer::timeout, this, &MyWidget::requestData);
+    connect(resetButton, &QPushButton::released, this, &ControlPanel::resetSimulation);
+    connect(&timer, &QTimer::timeout, this, &ControlPanel::requestData);
 
 
     timer.start(250);
@@ -60,8 +63,8 @@ void ControlPanel::requestData(){
 
 	QNetworkReply* reply = networkManager->get(request);
 
-	connect(reply, &QNetworkReply::errorOccurred, this, &MyWidget::onError);
-	connect(reply, &QNetworkReply::readyRead, this, &MyWidget::onDataReceived);
+	connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+	connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::onDataReceived);
 }
 
 
@@ -73,7 +76,7 @@ void ControlPanel::onDataReceived(){
 }
 
 
-void ControlPanel::onError(){
+void ControlPanel::onError(QNetworkReply::NetworkError code){
 
     connection->setText("Disconnected");
 
