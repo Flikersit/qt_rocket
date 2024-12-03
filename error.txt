@@ -1,0 +1,43 @@
+[main] Sestavuje se složka: d:/Downloads/Qt_drawing/Qt_drawing/build ALL_BUILD
+[build] Spouští se sestavování.
+[proc] Provádí se příkaz: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build d:/Downloads/Qt_drawing/Qt_drawing/build --config Debug --target ALL_BUILD -j 6 --
+[build] Microsoft (R) Build Engine verze 16.11.2+f32259642 pro .NET Framework
+[build] Copyright (C) Microsoft Corporation. Všechna práva vyhrazena.
+[build] 
+[build]   Checking Build System
+[build]   Automatic MOC and UIC for target hello_world_qt
+[build]   
+[build]   AutoMoc subprocess error
+[build]   ------------------------
+[build]   The moc process failed to compile
+[build]     "SRC:/ControlPanel.h"
+[build]   into
+[build]     "SRC:/build/hello_world_qt_autogen/include_Debug/EWIEGA46WW/moc_ControlPanel.cpp"
+[build]   
+[build]   Command
+[build]   -------
+[build]   C:/Qt6/6.5.2/msvc2019_64/./bin/moc.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Qt6/6.5.2/msvc2019_64/include/QtCore -IC:/Qt6/6.5.2/msvc2019_64/include -IC:/Qt6/6.5.2/msvc2019_64/mkspecs/win32-msvc -IC:/Qt6/6.5.2/msvc2019_64/include/QtGui -IC:/Qt6/6.5.2/msvc2019_64/include/QtWidgets -IC:/Qt6/6.5.2/msvc2019_64/include/QtNetwork --output-dep-file -o D:/Downloads/Qt_drawing/Qt_drawing/build/hello_world_qt_autogen/include_Debug/EWIEGA46WW/moc_ControlPanel.cpp D:/Downloads/Qt_drawing/Qt_drawing/ControlPanel.h
+[build]   
+[build]   Output
+[build]   ------
+[build]   D:/Downloads/Qt_drawing/Qt_drawing/ControlPanel.h(37:1): error: Missing access specifier for slots
+[build]   
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: Příkaz setlocal [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: cd D:\Downloads\Qt_drawing\Qt_drawing\build [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: D: [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E cmake_autogen D:/Downloads/Qt_drawing/Qt_drawing/build/CMakeFiles/hello_world_qt_autogen.dir/AutogenInfo.json Debug [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :cmErrorLevel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: exit /b %1 [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :cmDone [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :VCEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :VCEnd byl ukončen s kódem 1. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[proc] Příkaz "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build d:/Downloads/Qt_drawing/Qt_drawing/build --config Debug --target ALL_BUILD -j 6 -- byl ukončen s kódem 1.
+[driver] Sestavení bylo dokončeno: 00:00:02.483.
+[build] Sestavení se dokončilo s ukončovacím kódem 1.
+[main] Nepovedlo se připravit cíl spustitelného souboru s názvem "undefined".
+
