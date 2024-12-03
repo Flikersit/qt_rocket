@@ -10,7 +10,7 @@ RocketScene::RocketScene(){
     setSceneRect(0, 0, width, height);
 }
 
-RocketScene::paint_platforms(){
+void RocketScene::paint_platforms(){
     QGraphicsRectItem *rect_1 = new QGraphicsRectItem(0, 0, 5, 10);
     QGraphicsRectItem *rect_2 = new QGraphicsRectItem(0, 0, 5, 10);
 
@@ -35,7 +35,6 @@ RocketScene::paint_platforms(){
     addItem(rect_4);
 }
 
-RocketScene::reset(){
-    
+void RocketScene::reset(){
+    paint_platforms();
 }
-
