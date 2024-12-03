@@ -17,6 +17,18 @@ ControlPanel::ControlPanel(QWidget *parent = nullptr, RocketObject *rocket, Rock
 
     thrustSlider = new QSlider();
 
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+
+    layout->addWidget(resetButton);
+    layout->addWidget(leftButton);
+    layout->addWidget(rightButton);
+    layout->addWidget(statusLabel);
+    layout->addWidget(connection);
+    layout->addWidget(thrustSlider);
+    
+    setLayout(layout);
+
     networkManager = new QNetworkAccessManager(this);
     
 
