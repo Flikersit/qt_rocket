@@ -4,40 +4,120 @@
 [build] Microsoft (R) Build Engine verze 16.11.2+f32259642 pro .NET Framework
 [build] Copyright (C) Microsoft Corporation. Všechna práva vyhrazena.
 [build] 
-[build]   Checking Build System
 [build]   Automatic MOC and UIC for target hello_world_qt
-[build]   
-[build]   AutoMoc subprocess error
-[build]   ------------------------
-[build]   The moc process failed to compile
-[build]     "SRC:/ControlPanel.h"
-[build]   into
-[build]     "SRC:/build/hello_world_qt_autogen/include_Debug/EWIEGA46WW/moc_ControlPanel.cpp"
-[build]   
-[build]   Command
-[build]   -------
-[build]   C:/Qt6/6.5.2/msvc2019_64/./bin/moc.exe -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Qt6/6.5.2/msvc2019_64/include/QtCore -IC:/Qt6/6.5.2/msvc2019_64/include -IC:/Qt6/6.5.2/msvc2019_64/mkspecs/win32-msvc -IC:/Qt6/6.5.2/msvc2019_64/include/QtGui -IC:/Qt6/6.5.2/msvc2019_64/include/QtWidgets -IC:/Qt6/6.5.2/msvc2019_64/include/QtNetwork --output-dep-file -o D:/Downloads/Qt_drawing/Qt_drawing/build/hello_world_qt_autogen/include_Debug/EWIEGA46WW/moc_ControlPanel.cpp D:/Downloads/Qt_drawing/Qt_drawing/ControlPanel.h
-[build]   
-[build]   Output
-[build]   ------
-[build]   D:/Downloads/Qt_drawing/Qt_drawing/ControlPanel.h(37:1): error: Missing access specifier for slots
-[build]   
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: Příkaz setlocal [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: cd D:\Downloads\Qt_drawing\Qt_drawing\build [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: D: [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E cmake_autogen D:/Downloads/Qt_drawing/Qt_drawing/build/CMakeFiles/hello_world_qt_autogen.dir/AutogenInfo.json Debug [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :cmEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :cmErrorLevel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: exit /b %1 [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :cmDone [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: if %errorlevel% neq 0 goto :VCEnd [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(145,5): error MSB3073: :VCEnd byl ukončen s kódem 1. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build]   Building Custom Rule D:/Downloads/Qt_drawing/Qt_drawing/CMakeLists.txt
+[build]   mocs_compilation_Debug.cpp
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(13): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(13): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(26,13): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(26,13): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(26,26): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(28,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(28,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(28,28): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(29,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(29,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(29,29): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(30,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(30,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(30,29): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(32,12): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(32,12): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(32,24): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(33,12): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(33,12): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(33,23): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build]   main.cpp
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(13): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(13): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(26,13): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(26,13): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(26,26): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(28,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(28,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(28,28): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(29,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(29,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(29,29): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(30,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(30,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(30,29): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(32,12): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(32,12): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(32,24): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(33,12): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(33,12): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(33,23): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build]   RocketObject.cpp
+[build]   RocketScene.cpp
+[build]   ControlPanel.cpp
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(13): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(13): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(26,13): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(26,13): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(26,26): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(28,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(28,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(28,28): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(29,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(29,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(29,29): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(30,17): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(30,17): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(30,29): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(32,12): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(32,12): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(32,24): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(33,12): error C2143: Chyba syntaxe: Chybí ; před *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(33,12): error C4430: Chybějící specifikátor typu - předpokládá se typ int. Poznámka: C++ nepodporuje typ default-int. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(33,23): error C2238: neočekávané tokeny před: ; [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(8,46): error C2572: ControlPanel::ControlPanel: předefinování výchozího argumentu: parametr 1 [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(13): message : viz deklarace: ControlPanel::ControlPanel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(8): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(8): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(13,5): error C2065: resetButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(13,23): error C2061: Chyba syntaxe: identifikátor QPushButton [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(14,5): error C2065: leftButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(14,22): error C2061: Chyba syntaxe: identifikátor QPushButton [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(15,5): error C2065: rightButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(15,23): error C2061: Chyba syntaxe: identifikátor QPushButton [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(18,5): error C2065: statusLabel: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(18,23): error C2061: Chyba syntaxe: identifikátor QLabel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(19,5): error C2065: connection: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(19,22): error C2061: Chyba syntaxe: identifikátor QLabel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(21,5): error C2065: thrustSlider: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(21,24): error C2061: Chyba syntaxe: identifikátor QSlider [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(24,5): error C2065: QHBoxLayout: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(24,25): error C3867: QWidget::layout: Nestandardní syntaxe; pomocí '&' vytvořte ukazatel na člen. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(24,31): error C2061: Chyba syntaxe: identifikátor QHBoxLayout [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(26,23): error C2065: resetButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(27,23): error C2065: leftButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(28,23): error C2065: rightButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(29,23): error C2065: statusLabel: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(30,23): error C2065: connection: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(31,23): error C2065: thrustSlider: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(33,21): error C3867: QWidget::layout: Nestandardní syntaxe; pomocí '&' vytvořte ukazatel na člen. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,14): error C2065: resetButton: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,28): error C2653: QPushButton: není název třídy nebo oboru názvů. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,41): error C2065: released: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,72): error C2039: resetSimulation není členem: ControlPanel. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(9): message : viz deklarace: ControlPanel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,87): error C2065: resetSimulation: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(39,46): error C2653: MyWidget: není název třídy nebo oboru názvů. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(39,45): error C2276: &: Neplatná operace pro vázaný výraz členské funkce [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(66,55): error C2653: MyWidget: není název třídy nebo oboru názvů. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(66,54): error C2276: &: Neplatná operace pro vázaný výraz členské funkce [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(67,51): error C2653: MyWidget: není název třídy nebo oboru názvů. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(67,50): error C2276: &: Neplatná operace pro vázaný výraz členské funkce [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(74,5): error C2065: connection: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(81,5): error C2065: connection: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(86,20): error C2039: resetSimulation není členem: ControlPanel. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(9): message : viz deklarace: ControlPanel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(87,5): error C2065: scene: nedeklarovaný identifikátor [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
+[build]   Generování kódu...
 [proc] Příkaz "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build d:/Downloads/Qt_drawing/Qt_drawing/build --config Debug --target ALL_BUILD -j 6 -- byl ukončen s kódem 1.
-[driver] Sestavení bylo dokončeno: 00:00:02.483.
+[driver] Sestavení bylo dokončeno: 00:00:23.947.
 [build] Sestavení se dokončilo s ukončovacím kódem 1.
 [main] Nepovedlo se připravit cíl spustitelného souboru s názvem "undefined".
+
 
