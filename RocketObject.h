@@ -17,6 +17,18 @@ class RocketObject : public QGraphicsItem
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget);
 
+        void refresh_position();
+
+        qreal x;
+        qreal y;
+
+        bool leftEngine;
+        bool rightEngine;
+
+        bool isconnected;
+
+
+
 };
 
 #endif
