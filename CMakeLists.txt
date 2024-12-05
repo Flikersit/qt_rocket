@@ -22,4 +22,5 @@ target_link_libraries(hello_world_qt PRIVATE
     Qt6::Gui
     Qt6::Widgets
     Qt6::Network
+    Qt6::Charts
 )
