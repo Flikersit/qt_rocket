@@ -3,19 +3,22 @@
 
 #include <QGraphicsScene>
 #include <QtGUI>
+#include "./RocketObject.h"
 
 class RocketScene: public QGraphicsScene{
 
     Q_OBJECT
 
 public:
-    RocketScene();
+    RocketScene(RocketObject *rocket = nullptr);
 
-    void paint_platforms();
+    void paint_begin_position();
 
     void reset();
 
     int launchPadOffSet;
+
+    RocketObject *rocket;
 
 private:
     int height;
