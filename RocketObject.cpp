@@ -7,10 +7,11 @@ RocketObject::RocketObject(){
 }
 
 QRectF RocketObject::boundingRect() const{
-    return QRectF(-12, -24, 24, 48);
+    return QRectF(-12, 0, 24, 60);
 }
 
 void RocketObject::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    painter->scale(1, -1);
     painter->setRenderHint(QPainter::Antialiasing);
 
     painter->setBrush(Qt::red);
@@ -27,5 +28,11 @@ void RocketObject::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     painter->setBrush(Qt::darkGray);
     painter->drawEllipse(QPointF(0, 30), 4, 6);
+}
+
+void RocketObject::refresh_position(){
+    x = this->scenePos().x();
+    y = this->scenePos().y();
+
 }
 
