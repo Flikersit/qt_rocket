@@ -1,35 +1,27 @@
-[main] Sestavuje se složka: d:/Downloads/Qt_drawing/Qt_drawing/build ALL_BUILD
+[main] Konfiguruje se projekt: Qt_drawing 
+[proc] Provádí se příkaz: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE --no-warn-unused-cli -SD:/Downloads/Qt_drawing/Qt_drawing -Bd:/Downloads/Qt_drawing/Qt_drawing/build -G "Visual Studio 16 2019" -T host=x64 -A x64
 [build] Spouští se sestavování.
-[proc] Provádí se příkaz: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build d:/Downloads/Qt_drawing/Qt_drawing/build --config Debug --target ALL_BUILD -j 6 --
-[build] Microsoft (R) Build Engine verze 16.11.2+f32259642 pro .NET Framework
-[build] Copyright (C) Microsoft Corporation. Všechna práva vyhrazena.
-[build] 
-[build]   Automatic MOC and UIC for target hello_world_qt
-[build]   mocs_compilation_Debug.cpp
-[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(17): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt_autogen\include_Debug\EWIEGA46WW\../../../../ControlPanel.h(17): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build]   main.cpp
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(17): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(17): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build]   ControlPanel.cpp
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(17): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(17): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(8,46): error C2572: ControlPanel::ControlPanel: předefinování výchozího argumentu: parametr 1 [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.h(17): message : viz deklarace: ControlPanel::ControlPanel [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(8): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 2. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(8): error C2548: ControlPanel::ControlPanel: Chybí výchozí argument pro parametr 3. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,87): error C2664: QMetaObject::Connection QObject::connect<void(__cdecl QAbstractButton::* )(void),void(__cdecl ControlPanel::* )(void)>(const QAbstractButton *,Func1,const ControlPanel *,Func2,Qt::ConnectionType): Nejde převést argument 1 z: QPushButton ** na: const QAbstractButton *. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build]           with
-[build]           [
-[build]               Func1=void (__cdecl QAbstractButton::* )(void),
-[build]               Func2=void (__cdecl ControlPanel::* )(void)
-[build]           ]
-[build] D:\Downloads\Qt_drawing\Qt_drawing\ControlPanel.cpp(38,13): message : Typy, na které se ukazuje, spolu nesouvisejí; převod vyžaduje přetypování reinterpret_cast, C-style nebo function-style. [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build] C:\Qt6\6.5.2\msvc2019_64\include\QtCore/qobject.h(201,43): message : viz deklarace: QObject::connect [D:\Downloads\Qt_drawing\Qt_drawing\build\hello_world_qt.vcxproj]
-[build]   Generování kódu...
-[proc] Příkaz "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build d:/Downloads/Qt_drawing/Qt_drawing/build --config Debug --target ALL_BUILD -j 6 -- byl ukončen s kódem 1.
-[driver] Sestavení bylo dokončeno: 00:00:14.400.
-[build] Sestavení se dokončilo s ukončovacím kódem 1.
+[build] Sestavení se dokončilo s ukončovacím kódem -1.
+[cmake] Not searching for unused variables given on the command line.
 [main] Nepovedlo se připravit cíl spustitelného souboru s názvem "undefined".
+[cmake] -- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.19045.
+[cmake] -- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+[cmake] -- Configuring done (2.6s)
+[cmake] CMake Error at CMakeLists.txt:20 (target_link_libraries):
+[cmake]   Target "hello_world_qt" links to:
+[cmake] 
+[cmake]     Qt6::Charts
+[cmake] 
+[cmake]   but the target was not found.  Possible reasons include:
+[cmake] 
+[cmake]     * There is a typo in the target name.
+[cmake]     * A find_package call is missing for an IMPORTED target.
+[cmake]     * An ALIAS target is missing.
+[cmake] 
+[cmake] 
+[cmake] 
+[cmake] -- Generating done (0.3s)
+[cmake] CMake Generate step failed.  Build files cannot be regenerated correctly.
+[proc] Příkaz "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE --no-warn-unused-cli -SD:/Downloads/Qt_drawing/Qt_drawing -Bd:/Downloads/Qt_drawing/Qt_drawing/build -G "Visual Studio 16 2019" -T host=x64 -A x64 byl ukončen s kódem 1.
 
 
