@@ -13,11 +13,13 @@ int main(int argc, char **argv)
     mainWindow->setWindowTitle("Rocket");
     mainWindow->resize(800, 600);
 
-    RocketScene *rScene = new RocketScene();
+
     RocketObject *rObject = new RocketObject();
-    ControlPanel *rPanel = new ControlPanel(nullptr, rObject, rScene);
+    RocketScene *rScene = new RocketScene(rObject);
+    ControlPanel *rPanel = new ControlPanel(nullptr, rScene);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(mainWindow);
+    mainLayout->addWidget(rPanel);
 
     mainWindow->setLayout(mainLayout);
 
