@@ -12,17 +12,17 @@ class RocketScene: public QGraphicsScene{
 public:
     RocketScene(RocketObject *rocket = nullptr);
 
-    void paint_begin_position();
+    void paint_position(double x, double y);
 
     void reset();
 
-    int launchPadOffSet;
+    double launchPadOffSet;
 
     RocketObject *rocket;
 
-private:
-    int height;
-    int width;
+    double height;
+    double width;
+
 };
 
 #endif
