@@ -21,9 +21,11 @@ class RocketObject : public QGraphicsItem
 
         qreal x;
         qreal y;
+        double rotation;
 
         bool leftEngine;
         bool rightEngine;
+
 
         bool isconnected;
 
