@@ -30,8 +30,6 @@ public:
 
     QSlider *thrustSlider;    //
 
-    QPushButton *leftButton; // Left engine
-    QPushButton *rightButton; // Right engine
     QPushButton *resetButton; // Restart
 
     QCheckBox *checkbox_left; 
@@ -43,7 +41,7 @@ public:
     QLabel *connection;      // connection label
     QLabel *xposition;
     QLabel *yposition;
-    QLabel *rortation;
+    QLabel *rotation;
 
     QBarSet *vxSet;
     QBarSet *vySet;
@@ -53,6 +51,8 @@ public:
     QBarCategoryAxis *axisY;
 
     QTimer timer;
+
+    bool reset;
 
 public slots:
         void requestData();
@@ -65,5 +65,6 @@ public slots:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 };
