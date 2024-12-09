@@ -4,15 +4,18 @@
 
 RocketScene::RocketScene(RocketObject *rocket){
     this->rocket = rocket;
-    height = 600;
-    width = 400;
-    launchPadOffSet = 50;
+    height = 400.0;
+    width = 300.0;
+    launchPadOffSet = 50.0;
 
     setBackgroundBrush(Qt::black);
     setSceneRect(-(width/2), 0, width, height);//it works dont touch
+
 }
 
-void RocketScene::paint_begin_position(){
+void RocketScene::paint_position(double x, double y){
+    
+    setSceneRect(-(width/2), 0, width, height);
 
     QGraphicsRectItem *rect_1 = new QGraphicsRectItem(0, 0, 20, 40);
     QGraphicsRectItem *rect_2 = new QGraphicsRectItem(0, 0, 20, 40);
@@ -34,7 +37,7 @@ void RocketScene::paint_begin_position(){
     rect_3->setPos(launchPadOffSet - width -15, 40);
     rect_4->setPos(width - launchPadOffSet - 15, 40);
 
-    rocket->setPos(launchPadOffSet - width + 10, 85);
+    rocket->setPos(x, y + 85.0);
 
 
     addItem(rect_1);
@@ -49,6 +52,6 @@ void RocketScene::paint_begin_position(){
 
 void RocketScene::reset(){
     clear();
-    paint_begin_position();
+    paint_position(0.0, 0.0);
     rocket->refresh_position();
 }
