@@ -4,6 +4,9 @@
 #include <QGraphicsView>
 #include <QTransform>
 #include <QVariant>
+#include <QMainWindow>
+#include <cmath>
+#include <math.h>
 #include "ControlPanel.h"
 
 
@@ -82,11 +85,12 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     QVBoxLayout *vlayout = new QVBoxLayout(this);
 
     //Taying to create Bar: Begin
-    vxSet = new QBarSet("VX");
-    vySet = new QBarSet("VY");
+    vSet = new QBarSet("V");
+    *vSet << 0 << 0;
+    //vySet = new QBarSet("VY");
     series = new QBarSeries();
-    series->append(vxSet);
-    series->append(vySet);
+    series->append(vSet);
+    //series->append(vySet);
     chart = new QChart();
     chart->addSeries(series);
     chart->setTitle("Speed Graph");
@@ -96,7 +100,8 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     axisX->append("VY");
     chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
-    axisY = new QBarCategoryAxis();
+    axisY = new QValueAxis();
+    axisY->setRange(0, 20);
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
     QChartView *chartView = new QChartView(chart);
@@ -117,12 +122,15 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     hwidget->setLayout(layout);
     vlayout->addWidget(hwidget);
 
-    QGraphicsView *view = new QGraphicsView(this->scene);
+    view = new QGraphicsView(this->scene);
 
     QTransform transform;//IT WORKS DONT TOUCH
     transform.scale(1, -1);//!!
     view->setTransform(transform);//!!
     view->setRenderHint(QPainter::Antialiasing);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setFixedSize(scene->width, scene->height);
     view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 
     vlayout->addWidget(view);
@@ -132,12 +140,12 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     networkManager = new QNetworkAccessManager(this);
     
 
-    connect(resetButton, &QPushButton::released, this, &ControlPanel::resetSimulation);
+    connect(resetButton, &QPushButton::released, this, &ControlPanel::resetSim);
     connect(&timer, &QTimer::timeout, this, &ControlPanel::requestData);
 
     connect(checkbox_left, &QCheckBox::stateChanged, this, &ControlPanel::left_engine_change);
     connect(checkbox_right, &QCheckBox::stateChanged, this, &ControlPanel::right_engine_change);
-    connect(thrustSlider, &QSlider::valueChanged, this, &ControlPanel::post_data);
+    connect(thrustSlider, &QSlider::valueChanged, this, &ControlPanel::main_changed);
 
 
     timer.start(250);
@@ -174,10 +182,13 @@ void ControlPanel::onDataReceived(){
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 	QByteArray data = reply->readAll();
 	QString str(data);
-	qDebug() << str;
+	qDebug() << "Geted data from server " <<str;
 
 	QJsonDocument jDoc = QJsonDocument::fromJson(data);
 	QJsonObject jResponse = jDoc.object();
+    if (!jResponse.contains("subitems")){
+        qDebug()<<"Do not consist subitems";
+    }
 
     double height = jResponse["subitems"].toArray()[5].toObject()["Height"].toObject()["v"].toDouble();
     double width = jResponse["subitems"].toArray()[4].toObject()["Width"].toObject()["v"].toDouble();
@@ -185,6 +196,7 @@ void ControlPanel::onDataReceived(){
 
     bool left_engine = jResponse["subitems"].toArray()[1].toObject()["LeftThruster"].toObject()["v"].toBool();
     bool right_engine = jResponse["subitems"].toArray()[2].toObject()["RightThruster"].toObject()["v"].toBool();
+    double main_engine = jResponse["subitems"].toArray()[0].toObject()["EngineThrottle"].toObject()["v"].toDouble();
 
     double x_position = jResponse["subitems"].toArray()[6].toObject()["X"].toObject()["v"].toDouble();
     double y_position = jResponse["subitems"].toArray()[7].toObject()["Y"].toObject()["v"].toDouble();
@@ -192,7 +204,7 @@ void ControlPanel::onDataReceived(){
     double lounch_pad = jResponse["subitems"].toArray()[13].toObject()["LaunchpadOffset"].toObject()["v"].toDouble();
 
     double vx = jResponse["subitems"].toArray()[8].toObject()["VX"].toObject()["v"].toDouble();
-    double vy = jResponse["subitems"].toArray()[8].toObject()["VY"].toObject()["v"].toDouble();
+    double vy = jResponse["subitems"].toArray()[9].toObject()["VY"].toObject()["v"].toDouble();
 
     bool touchdown = jResponse["subitems"].toArray()[11].toObject()["Touchdown"].toObject()["v"].toBool();
     bool crashed = jResponse["subitems"].toArray()[12].toObject()["Crashed"].toObject()["v"].toBool();
@@ -200,17 +212,19 @@ void ControlPanel::onDataReceived(){
     bool reset = jResponse["subitems"].toArray()[3].toObject()["Reset"].toObject()["v"].toBool();
 
     
-    vxSet->replace(0, vx);
-    vySet->replace(0, vy);
+    vSet->replace(0, vx);
+    vSet->replace(1, vy);
+    chart->update();
 
+    scene->rocket->main_engine = main_engine;
     scene->rocket->isconnected = true;
     scene->rocket->x = x_position;
     scene->rocket->y = y_position;
     scene->rocket->rotation = rotation;
 
-    xposition->setText("X position: " + QString::number(scene->rocket->x));
-    yposition->setText("Y position: " + QString::number(scene->rocket->y));
-    this->rotation->setText("Rotation: " + QString::number(scene->rocket->rotation));
+    xposition->setText("X position: " + QString::number(round((scene->rocket->x)*100)/100));
+    yposition->setText("Y position: " + QString::number(round((scene->rocket->y)*100)/100));
+    this->rotation->setText("Rotation: " + QString::number(round(((scene->rocket->rotation)*(180.0/M_PI))*100)/100));
 
     if(touchdown){
         statusLabel->setText("Rocket state: Touchdown");
@@ -224,13 +238,15 @@ void ControlPanel::onDataReceived(){
     scene->width = width/2;
     scene->height = height;
     scene->launchPadOffSet = lounch_pad;
+
     scene->paint_position(x_position, y_position);
 
 }
 
 
-void ControlPanel::post_data(){
-    QUrl url = QUrl("http://localhost:8008/api/tasks/rocket/Rocket?data&mime=application/json");
+
+void ControlPanel::post_left_thruster(){
+    QUrl url = QUrl("http://localhost:8008/api/data/rocket/CNB_left_thruster:YCN?data&mime=application/json");
 
 	QNetworkRequest request = QNetworkRequest(url);
 
@@ -247,42 +263,174 @@ void ControlPanel::post_data(){
 	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
 	request.setSslConfiguration(conf);
 
-    QJsonArray subitems;
 
-    QJsonObject engineThrottle;
-    engineThrottle["EngineThrottle"] = QJsonObject{{"v", double(thrustSlider->value()/10)}};
-    subitems.append(engineThrottle);
+    QString payload;
+	payload += "{";
+	payload += "\"v\":";
+	payload += QVariant(this->scene->rocket->leftEngine).toString();
+	payload += "}";
 
-    QJsonObject leftThruster;
-    leftThruster["LeftThruster"] = QJsonObject{{"v", checkbox_left->isChecked()}};
-    subitems.append(leftThruster);
+    QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
+    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+	connect(reply, &QNetworkReply::errorOccurred,this, &ControlPanel::onError);
 
-    QJsonObject rightThruster;
-    rightThruster["RightThruster"] = QJsonObject{{"v", checkbox_right->isChecked()}};
-    subitems.append(rightThruster);
+}
 
-    QJsonObject reset;
-    reset["BSTATE"] = QJsonObject{{"v", this->reset}};
-    subitems.append(reset);
 
-    QJsonObject width;
-    width["Width"] = QJsonObject{{"v", scene->width}};
-    subitems.append(width);
+void ControlPanel::post_right_thruster(){
+     QUrl url = QUrl("http://localhost:8008/api/data/rocket/CNB_right_thruster:YCN?&mime=application/json");
 
-    QJsonObject height;
-    height["Height"] = QJsonObject{{"v", scene->height}};
+	QNetworkRequest request = QNetworkRequest(url);
 
-    QJsonObject rootObject;
-    rootObject["subitems"] = subitems;
+	// HTTP Basic authentication header value: base64(username:password)
+	QString username = "admin";
+	QString password = "";
+	QString concatenated = username + ":" + password;
+	QByteArray data = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + data;
+	request.setRawHeader("Authorization", headerData.toLocal8Bit());
+	request.setRawHeader("Content-Type", "application/json");
 
-    QJsonDocument jsonDoc(rootObject);
-    QByteArray payload = jsonDoc.toJson(QJsonDocument::Compact);
+	QSslConfiguration conf = request.sslConfiguration();
+	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+	request.setSslConfiguration(conf);
 
-    QNetworkReply *reply = networkManager->post(request, payload);
 
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::onDataReceived);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError); 
+    QString payload;
+	payload += "{";
+	payload += "\"v\":";
+	payload += QVariant(this->scene->rocket->rightEngine).toString();
+	payload += "}";
 
+    qDebug()<<"Payload for right thruster" << payload;
+
+    QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
+    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+	connect(reply, &QNetworkReply::errorOccurred,this, &ControlPanel::onError);
+}
+
+
+void ControlPanel::post_main_engine(){
+     QUrl url = QUrl("http://localhost:8008/api/data/rocket/CNR_EngineThrottle:ycn?&mime=application/json");
+
+	QNetworkRequest request = QNetworkRequest(url);
+
+	// HTTP Basic authentication header value: base64(username:password)
+	QString username = "admin";
+	QString password = "";
+	QString concatenated = username + ":" + password;
+	QByteArray data = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + data;
+	request.setRawHeader("Authorization", headerData.toLocal8Bit());
+	request.setRawHeader("Content-Type", "application/json");
+
+	QSslConfiguration conf = request.sslConfiguration();
+	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+	request.setSslConfiguration(conf);
+
+    QString payload;
+	payload += "{";
+	payload += "\"v\":";
+	payload += QString::number(this->scene->rocket->main_engine);
+	payload += "}";
+
+    QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
+
+
+    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+	connect(reply, &QNetworkReply::errorOccurred,this, &ControlPanel::onError);
+}
+
+
+void ControlPanel::post_height(){
+     QUrl url = QUrl("http://localhost:8008/api/data/rocket/Rocket:Height?data&mime=application/json");
+
+	QNetworkRequest request = QNetworkRequest(url);
+
+	// HTTP Basic authentication header value: base64(username:password)
+	QString username = "admin";
+	QString password = "";
+	QString concatenated = username + ":" + password;
+	QByteArray data = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + data;
+	request.setRawHeader("Authorization", headerData.toLocal8Bit());
+	request.setRawHeader("Content-Type", "application/json");
+
+	QSslConfiguration conf = request.sslConfiguration();
+	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+	request.setSslConfiguration(conf);
+
+
+    QString payload;
+	payload += "{";
+	payload += "\"v\": ";
+	payload += QString::number(this->scene->height);
+	payload += "}";
+
+    QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
+    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+	connect(reply, &QNetworkReply::errorOccurred,this, &ControlPanel::onError);
+}
+
+void ControlPanel::post_width(){
+     QUrl url = QUrl("http://localhost:8008/api/data/rocket/Rocket:Width?data&mime=application/json");
+
+	QNetworkRequest request = QNetworkRequest(url);
+
+	// HTTP Basic authentication header value: base64(username:password)
+	QString username = "admin";
+	QString password = "";
+	QString concatenated = username + ":" + password;
+	QByteArray data = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + data;
+	request.setRawHeader("Authorization", headerData.toLocal8Bit());
+	request.setRawHeader("Content-Type", "application/json");
+
+	QSslConfiguration conf = request.sslConfiguration();
+	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+	request.setSslConfiguration(conf);
+
+
+    QString payload;
+	payload += "{";
+	payload += "\"v\":";
+	payload += QString::number(this->scene->width);
+	payload += "}";
+
+    QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
+    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+	connect(reply, &QNetworkReply::errorOccurred,this, &ControlPanel::onError);
+}
+
+
+void ControlPanel::post_reset(){
+     QUrl url = QUrl("http://localhost:8008/api/data/rocket/MP_reset:BSTATE?data&mime=application/json");
+
+	QNetworkRequest request = QNetworkRequest(url);
+
+	// HTTP Basic authentication header value: base64(username:password)
+	QString username = "admin";
+	QString password = "";
+	QString concatenated = username + ":" + password;
+	QByteArray data = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + data;
+	request.setRawHeader("Authorization", headerData.toLocal8Bit());
+	request.setRawHeader("Content-Type", "application/json");
+
+	QSslConfiguration conf = request.sslConfiguration();
+	conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+	request.setSslConfiguration(conf);
+
+
+    QString payload;
+	payload += "{";
+	payload += "\"v\":";
+	payload += QVariant(true).toString();
+	payload += "}";
+
+    QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
+    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+	connect(reply, &QNetworkReply::errorOccurred,this, &ControlPanel::onError);
 }
 
 
@@ -293,17 +441,10 @@ void ControlPanel::onError(QNetworkReply::NetworkError code){
 }
 
 
-void ControlPanel::resetSimulation(){
-    scene->reset();
-    xposition->setText("X position: " +  QString::number(scene->rocket->x));
-    yposition->setText("Y position: " +  QString::number(scene->rocket->y));
-}
-
-
 void ControlPanel::keyPressEvent(QKeyEvent *event){
 
     if (event->key()==Qt::Key_R){
-		resetSimulation();
+		this->resetSim();
 	} else if (event->key()==Qt::Key_A){
         checkbox_left->setChecked(!(checkbox_left->isChecked()));
     } else if (event->key()==Qt::Key_D){
@@ -321,23 +462,44 @@ void ControlPanel::keyPressEvent(QKeyEvent *event){
 void ControlPanel::left_engine_change(){
 
     scene->rocket->leftEngine = checkbox_left->isChecked();
-    this->post_data();
+    this->post_left_thruster();
 
 }
 
 void ControlPanel::right_engine_change(){
 
     scene->rocket->rightEngine = checkbox_right->isChecked();
-    this->post_data();
+    this->post_right_thruster();
 
 }
 
+void ControlPanel::main_changed(){
+    double newValue = double(thrustSlider->value()) / 10;
+    scene->rocket->main_engine = newValue;  // Обновление локальной переменной
+    qDebug() << "Main engine updated locally:" << newValue;
+    post_main_engine();
+}
+
+
+void ControlPanel::resetSim(){
+    thrustSlider->setValue(0);
+    main_changed();
+    checkbox_left->setChecked(false);
+    checkbox_right->setChecked(false);
+    this->post_reset();
+    
+}
+
+//this shit doesn't work
 void ControlPanel::resizeEvent(QResizeEvent *event) {
-    QWidget::resizeEvent(event);
-    if (scene) {
-        QGraphicsView *view = findChild<QGraphicsView *>();
-        if (view) {
-            view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
-        }
+
+    int newWidth = event->size().width();
+    int newHeight = event->size().height();
+
+    if (newWidth < newHeight){
+        newHeight = static_cast<int>(newWidth)/scene->aspectRatio;
+    }else{
+        newWidth = static_cast<int>(newHeight)*scene->aspectRatio;
     }
+    scene->setSceneRect(-(newWidth/2), 0, newWidth, newHeight);
 }
