@@ -21,7 +21,9 @@ class RocketObject : public QGraphicsItem
 
         qreal x;
         qreal y;
+
         double rotation;
+        double main_engine;
 
         bool leftEngine;
         bool rightEngine;
