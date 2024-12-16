@@ -22,9 +22,11 @@ class ControlPanel: public QWidget{
 
 public:
     ControlPanel(QWidget *parent = nullptr, RocketScene *scene = nullptr);
-    void resetSimulation();
+    void resizeEvent(QResizeEvent *event) override;
+    void resetSim();
 
     RocketScene *scene;
+    QGraphicsView *view;
 
     QNetworkAccessManager* networkManager;
 
@@ -43,12 +45,12 @@ public:
     QLabel *yposition;
     QLabel *rotation;
 
-    QBarSet *vxSet;
-    QBarSet *vySet;
+    QBarSet *vSet;
+    //QBarSet *vySet;
     QBarSeries *series;
     QChart *chart;
     QBarCategoryAxis *axisX;
-    QBarCategoryAxis *axisY;
+    QValueAxis *axisY;
 
     QTimer timer;
 
@@ -57,14 +59,19 @@ public:
 public slots:
         void requestData();
         void onDataReceived();
-        void post_data();
+        void post_main_engine();
+        void post_left_thruster();
+        void post_right_thruster();
+        void post_reset();
+        void post_width();
+        void post_height();
         void onError(QNetworkReply::NetworkError code);
         void left_engine_change();
         void right_engine_change();
+        void main_changed();
 
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
 
 };
