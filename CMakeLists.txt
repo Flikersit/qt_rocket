@@ -10,6 +10,7 @@ qt_add_executable(hello_world_qt
     RocketObject.cpp RocketObject.h
     RocketScene.cpp RocketScene.h
     ControlPanel.cpp ControlPanel.h
+    Sibka.cpp Sibka.h
 )
 
 set_target_properties(hello_world_qt PROPERTIES
