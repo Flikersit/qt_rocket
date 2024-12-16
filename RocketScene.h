@@ -13,8 +13,8 @@ public:
     RocketScene(RocketObject *rocket = nullptr);
 
     void paint_position(double x, double y);
+    void paint_begin();
 
-    void reset();
 
     double launchPadOffSet;
 
@@ -22,6 +22,13 @@ public:
 
     double height;
     double width;
+    double aspectRatio;
+    bool resetSim = false;
+
+    QGraphicsRectItem *rect_3;
+    QGraphicsRectItem *rect_4;
+    QGraphicsRectItem *rect_5;
+    QGraphicsPolygonItem *arrowItem;
 
 };
 
