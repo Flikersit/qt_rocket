@@ -7,9 +7,9 @@
 class Sibka: public QGraphicsScene{
     public:
         Sibka();
-
-
-
+        void begin_draw();
+        QGraphicsPolygonItem *arrowItem;
 };
+
 
 #endif
