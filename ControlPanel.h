@@ -15,6 +15,8 @@
 #include <QtCharts/QChart>
 #include "./RocketObject.h"
 #include "./RocketScene.h"
+#include "./Sibka.h"
+#include "./CustomView.h"
 
 
 class ControlPanel: public QWidget{
@@ -27,6 +29,8 @@ public:
 
     RocketScene *scene;
     QGraphicsView *view;
+    //CustomView *view;
+    Sibka *sibka;
 
     QNetworkAccessManager* networkManager;
 
