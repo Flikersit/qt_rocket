@@ -87,10 +87,8 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     //Taying to create Bar: Begin
     vSet = new QBarSet("V");
     *vSet << 0 << 0;
-    //vySet = new QBarSet("VY");
     series = new QBarSeries();
     series->append(vSet);
-    //series->append(vySet);
     chart = new QChart();
     chart->addSeries(series);
     chart->setTitle("Speed Graph");
@@ -109,6 +107,10 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     //i'VE END IT AND I WANNA CRY
 
 
+    //for arrow
+    sibka = new Sibka();
+
+
 
 
     layout->addWidget(resetButton);
@@ -117,12 +119,14 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     layout->addWidget(check_widget);
     layout->addWidget(widget_for_slider);
     layout->addWidget(chartView);
+    layout->addWidget(sibka->view);
 
     QWidget *hwidget = new QWidget();
     hwidget->setLayout(layout);
     vlayout->addWidget(hwidget);
 
     view = new QGraphicsView(this->scene);
+    //view = new CustomView(this->scene);
 
     QTransform transform;//IT WORKS DONT TOUCH
     transform.scale(1, -1);//!!
@@ -211,9 +215,9 @@ void ControlPanel::onDataReceived(){
 
     bool reset = jResponse["subitems"].toArray()[3].toObject()["Reset"].toObject()["v"].toBool();
 
-    
-    vSet->replace(0, vx);
-    vSet->replace(1, vy);
+    qDebug()<<"Ryclost po ose x GRAF"<< vx;
+    vSet->replace(0, abs(vx));
+    vSet->replace(1, abs(vy));
     chart->update();
 
     scene->rocket->main_engine = main_engine;
@@ -240,6 +244,10 @@ void ControlPanel::onDataReceived(){
     scene->launchPadOffSet = lounch_pad;
 
     scene->paint_position(x_position, y_position);
+
+
+    double factor = sqrt(pow(vx, 2) + pow(vy, 2));
+    sibka->update_arrow(round(((scene->rocket->rotation)*(180.0/M_PI))*100)/100, factor*5);
 
 }
 
