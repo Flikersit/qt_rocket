@@ -1,15 +1,24 @@
 #ifndef SIBKA_H
 #define SIBKA_H
 
+#include <QGraphicsPolygonItem>
 #include <QGraphicsScene>
-#include <QtGUI>
+#include <QGraphicsView>
+#include <QWidget>
 
-class Sibka: public QGraphicsScene{
-    public:
-        Sibka();
-        void begin_draw();
-        QGraphicsPolygonItem *arrowItem;
+class Sibka : public QWidget {
+    Q_OBJECT
+
+public:
+
+    Sibka(QWidget *parent = nullptr);
+    void update_arrow(qreal angle, qreal factor);
+
+    QGraphicsScene *scene;
+    QGraphicsView *view;
+    QGraphicsPolygonItem *arrowItem;
+    QGraphicsLineItem * arrowLine; 
+
 };
 
-
-#endif
+#endif // SIBKA_H
