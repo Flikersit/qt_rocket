@@ -104,7 +104,7 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     series->attachAxis(axisY);
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-    //i'VE END IT AND I WANNA CRY
+    //
 
 
     //for arrow
@@ -128,14 +128,14 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     view = new QGraphicsView(this->scene);
     //view = new CustomView(this->scene);
 
-    QTransform transform;//IT WORKS DONT TOUCH
-    transform.scale(1, -1);//!!
-    view->setTransform(transform);//!!
+    QTransform transform;//
+    transform.scale(1, -1);//
+    view->setTransform(transform);//
     view->setRenderHint(QPainter::Antialiasing);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setFixedSize(scene->width, scene->height);
-    view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    //iew->setFixedSize(scene->width, scene->height);
+    //view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 
     vlayout->addWidget(view);
 
@@ -483,7 +483,7 @@ void ControlPanel::right_engine_change(){
 
 void ControlPanel::main_changed(){
     double newValue = double(thrustSlider->value()) / 10;
-    scene->rocket->main_engine = newValue;  // Обновление локальной переменной
+    scene->rocket->main_engine = newValue;  
     qDebug() << "Main engine updated locally:" << newValue;
     post_main_engine();
 }
@@ -498,8 +498,10 @@ void ControlPanel::resetSim(){
     
 }
 
-//this shit doesn't work
+//
 void ControlPanel::resizeEvent(QResizeEvent *event) {
+
+    scene->aspectRatio = scene->width/scene->height;
 
     int newWidth = event->size().width();
     int newHeight = event->size().height();
@@ -510,4 +512,9 @@ void ControlPanel::resizeEvent(QResizeEvent *event) {
         newWidth = static_cast<int>(newHeight)*scene->aspectRatio;
     }
     scene->setSceneRect(-(newWidth/2), 0, newWidth, newHeight);
+    view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    scene->width = newWidth;
+    scene->height = newHeight;
+    //scene->res_event();
+
 }
