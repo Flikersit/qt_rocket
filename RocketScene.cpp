@@ -24,11 +24,10 @@ RocketScene::RocketScene(RocketObject *rocket){
           << QPointF(5, 0)
           << QPointF(10, 0);
 
-    arrowItem = new QGraphicsPolygonItem(arrow);
 
 
     setBackgroundBrush(Qt::black);
-    setSceneRect(-(width/2), 0, width, height);//it works dont touch
+    setSceneRect(-(width/2), height, width, height);//
     
     paint_begin();
 
@@ -38,7 +37,7 @@ RocketScene::RocketScene(RocketObject *rocket){
 }
 
 void RocketScene::paint_begin(){
-    setSceneRect(-(width/2), 0, width, height);
+    setSceneRect(-(width/2), height, width, height);
 
 
     rect_3->setBrush(Qt::blue);
@@ -49,12 +48,12 @@ void RocketScene::paint_begin(){
 
     //rect_5->setBrush(Qt::white);
     //rect_5->setPos(-20, -20);
-    arrowItem->setBrush(Qt::white);
-    arrowItem->setPos(-10, 20);
+    //arrowItem->setBrush(Qt::white);
+    //arrowItem->setPos(-10, 20);
 
     rocket->setPos(launchPadOffSet - width/2 + 25 , 46);
 
-    addItem(arrowItem);
+    //addItem(arrowItem);
     addItem(rect_3);
     addItem(rect_4);
     //addItem(rect_5);
@@ -66,8 +65,17 @@ void RocketScene::paint_begin(){
 
 
 void RocketScene::paint_position(double x, double y){
-    qDebug() << "Rocket disappear(";
     rocket->setPos(x-43, y+46);
     rocket->setRotation(round(((rocket->rotation)*(180.0/M_PI))*100)/100);
     this->update();
+}
+
+void RocketScene::res_event(){
+    rect_3->setPos(launchPadOffSet - width/2, 10);
+    rect_4->setPos(width/2 - launchPadOffSet -50, 10);
+    if(rocket->isconnected){
+        rocket->setPos(rocket->x-43, rocket->y+46);
+    }else{
+        rocket->setPos(launchPadOffSet - width/2 + 25 , 46);
+    }
 }
