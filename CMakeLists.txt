@@ -11,6 +11,7 @@ qt_add_executable(hello_world_qt
     RocketScene.cpp RocketScene.h
     ControlPanel.cpp ControlPanel.h
     Sibka.cpp Sibka.h
+    CustomView.cpp CustomView.h
 )
 
 set_target_properties(hello_world_qt PROPERTIES
