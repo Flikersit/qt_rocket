@@ -30,6 +30,7 @@ class RocketObject : public QGraphicsItem
 
 
         bool isconnected;
+        bool in_platform = true;
 
 
 
