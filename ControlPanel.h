@@ -50,7 +50,7 @@ public:
     QLabel *rotation;
 
     QBarSet *vSet;
-    //QBarSet *vySet;
+
     QBarSeries *series;
     QChart *chart;
     QBarCategoryAxis *axisX;
