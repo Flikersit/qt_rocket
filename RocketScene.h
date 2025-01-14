@@ -14,6 +14,7 @@ public:
 
     void paint_position(double x, double y);
     void paint_begin();
+    void res_event();
 
 
     double launchPadOffSet;
@@ -28,7 +29,7 @@ public:
     QGraphicsRectItem *rect_3;
     QGraphicsRectItem *rect_4;
     QGraphicsRectItem *rect_5;
-    QGraphicsPolygonItem *arrowItem;
+
 
 };
 
