@@ -1,27 +1,73 @@
-[main] Konfiguruje se projekt: Qt_drawing 
-[proc] Provádí se příkaz: "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE --no-warn-unused-cli -SD:/Downloads/Qt_drawing/Qt_drawing -Bd:/Downloads/Qt_drawing/Qt_drawing/build -G "Visual Studio 16 2019" -T host=x64 -A x64
-[build] Spouští se sestavování.
-[build] Sestavení se dokončilo s ukončovacím kódem -1.
-[cmake] Not searching for unused variables given on the command line.
-[main] Nepovedlo se připravit cíl spustitelného souboru s názvem "undefined".
-[cmake] -- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.19045.
-[cmake] -- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
-[cmake] -- Configuring done (2.6s)
-[cmake] CMake Error at CMakeLists.txt:20 (target_link_libraries):
-[cmake]   Target "hello_world_qt" links to:
-[cmake] 
-[cmake]     Qt6::Charts
-[cmake] 
-[cmake]   but the target was not found.  Possible reasons include:
-[cmake] 
-[cmake]     * There is a typo in the target name.
-[cmake]     * A find_package call is missing for an IMPORTED target.
-[cmake]     * An ALIAS target is missing.
-[cmake] 
-[cmake] 
-[cmake] 
-[cmake] -- Generating done (0.3s)
-[cmake] CMake Generate step failed.  Build files cannot be regenerated correctly.
-[proc] Příkaz "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE --no-warn-unused-cli -SD:/Downloads/Qt_drawing/Qt_drawing -Bd:/Downloads/Qt_drawing/Qt_drawing/build -G "Visual Studio 16 2019" -T host=x64 -A x64 byl ukončen s kódem 1.
+#include <QPainter>
+#include <QPaintEvent>
+#include <QWidget>
 
+class RocketWidget : public QWidget {
+    Q_OBJECT
+
+public:
+    RocketWidget(QWidget *parent = nullptr) : QWidget(parent), rotationAngle(0) {}
+
+    void setRotation(double angle) {
+        rotationAngle = angle;
+        update(); // Перерисовка виджета
+    }
+
+protected:
+    void paintEvent(QPaintEvent *event) override {
+        QPainter painter(this);
+
+        // Устанавливаем начало координат в середину снизу
+        painter.translate(width() / 2, height());
+
+        // Инвертируем ось Y, чтобы положительное направление было вверх
+        painter.scale(1, -1);
+
+        // Сначала рисуем платформы (статичны)
+        drawPlatforms(&painter);
+
+        // Затем рисуем ракету, применяя вращение
+        painter.save(); // Сохраняем текущую систему координат
+        painter.translate(0, -50); // Сдвиг к центру ракеты
+        painter.rotate(rotationAngle); // Поворачиваем координатную систему
+        painter.translate(0, 50); // Возвращаем обратно
+        drawRocket(&painter); // Рисуем ракету
+        painter.restore(); // Восстанавливаем координатную систему
+    }
+
+private:
+    double rotationAngle; // Угол поворота ракеты
+
+    void drawRocket(QPainter *painter) {
+        // Рисуем основное тело
+        painter->setBrush(Qt::red);
+        painter->drawRect(-12, -48, 24, 48);
+
+        // Рисуем нос ракеты
+        QPolygonF nose;
+        nose << QPointF(-12, -48) << QPointF(12, -48) << QPointF(0, -68);
+        painter->setBrush(Qt::gray);
+        painter->drawPolygon(nose);
+
+        // Рисуем двигатели
+        painter->setBrush(Qt::yellow);
+        painter->drawRect(-10, 0, 6, 10);
+        painter->drawRect(4, 0, 6, 10);
+
+        // Дополнительные элементы
+        painter->setBrush(Qt::darkGray);
+        painter->drawEllipse(QPointF(0, 10), 4, 6);
+    }
+
+    void drawPlatforms(QPainter *painter) {
+        // Рисуем платформы как статичные элементы
+        painter->setBrush(Qt::blue);
+
+        // Левая платформа
+        painter->drawRect(-100, 0, 50, 10);
+
+        // Правая платформа
+        painter->drawRect(50, 0, 50, 10);
+    }
+};
 
