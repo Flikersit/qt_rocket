@@ -1,32 +1,57 @@
-#include <QApplication>
-#include "RocketWidget.h"
+#include <QPainter>
+#include "RocketSceneFinal.h"
 
-int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+RocketSceneFinal::RocketSceneFinal(QWidget *parent){
+    launchPadOffSet = 30;
+    rotation = 0.0;
+    x = -width()/2 + launchPadOffSet + 25;
+    y = 46;
 
-    // Создаем виджет ракеты
-    RocketWidget rocketWidget;
-    rocketWidget.resize(800, 600); // Устанавливаем размер окна
-    rocketWidget.setRocketPosition(0, 50); // Начальные координаты ракеты
-    rocketWidget.setRotation(0); // Начальный угол поворота
-    rocketWidget.show();
+}
 
-    // Пример изменения положения и поворота через таймер
-    QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, [&]() {
-        static double x = 0;
-        static double y = 50;
-        static double angle = 0;
+void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
+    QPainter painter(this);
+    painter.translate(width()/2, height());
+    painter.scale(1, -1);
 
-        x += 5; // Двигаем ракету вправо
-        angle += 5; // Увеличиваем угол поворота
+    painter.setBrush(Qt::black);
+    painter.drawRect(-width()/2, height(), width(), height());
 
-        if (x > 400) x = -400; // Возвращаем влево, если ракета выходит за пределы
-        rocketWidget.setRocketPosition(x, y); // Обновляем координаты ракеты
-        rocketWidget.setRotation(angle); // Обновляем угол поворота
-    });
-    timer.start(50); // Обновление каждые 50 мс
+    painter.setBrush(Qt::blue);
+    painter.drawRect(-width()/2 + launchPadOffSet, 10, 50, 10);
+    painter.drawRect(width()/2 - launchPadOffSet, 10, 50, 10);
 
-    return app.exec();
+    painter.save();
+    painter.translate(x, y);
+    painter.translate(0, -15);
+    painter.rotate(rotation);
+    painter.translate(0, 15);
+    paintRocket(&painter);
+
+    painter.restore();
+
+
+
+}
+
+void RocketSceneFinal::paintRocket(QPainter *painter) {
+    // Рисуем основное тело
+    painter->setBrush(Qt::red);
+    painter->drawRect(-12, -48, 24, 48);
+
+    // Рисуем нос ракеты
+    QPolygonF nose;
+    nose << QPointF(-12, -48) << QPointF(12, -48) << QPointF(0, -68);
+    painter->setBrush(Qt::gray);
+    painter->drawPolygon(nose);
+
+    // Рисуем двигатели
+    painter->setBrush(Qt::yellow);
+    painter->drawRect(-10, 42, 6, 6);
+    painter->drawRect(4, 42, 6, 6);
+
+    // Дополнительные элементы
+    painter->setBrush(Qt::darkGray);
+    painter->drawEllipse(QPointF(0, 20), 4, 6);
 }
 
