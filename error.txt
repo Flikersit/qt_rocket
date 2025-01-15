@@ -1,73 +1,21 @@
-#include <QPainter>
-#include <QPaintEvent>
-#include <QWidget>
+void RocketWidget::drawRocket(QPainter *painter) {
+    // Основное тело ракеты
+    painter->setBrush(Qt::red);
+    painter->drawRect(-12, -48, 24, 48); // Тело размером 24x48
 
-class RocketWidget : public QWidget {
-    Q_OBJECT
+    // Нос ракеты
+    QPolygonF nose;
+    nose << QPointF(-12, -48) << QPointF(12, -48) << QPointF(0, -68); // Нос выше тела
+    painter->setBrush(Qt::gray);
+    painter->drawPolygon(nose);
 
-public:
-    RocketWidget(QWidget *parent = nullptr) : QWidget(parent), rotationAngle(0) {}
+    // Боковые двигатели на высоте 42
+    painter->setBrush(Qt::yellow);
+    painter->drawRect(-10, 42, 6, 6); // Левый двигатель
+    painter->drawRect(4, 42, 6, 6);  // Правый двигатель
 
-    void setRotation(double angle) {
-        rotationAngle = angle;
-        update(); // Перерисовка виджета
-    }
-
-protected:
-    void paintEvent(QPaintEvent *event) override {
-        QPainter painter(this);
-
-        // Устанавливаем начало координат в середину снизу
-        painter.translate(width() / 2, height());
-
-        // Инвертируем ось Y, чтобы положительное направление было вверх
-        painter.scale(1, -1);
-
-        // Сначала рисуем платформы (статичны)
-        drawPlatforms(&painter);
-
-        // Затем рисуем ракету, применяя вращение
-        painter.save(); // Сохраняем текущую систему координат
-        painter.translate(0, -50); // Сдвиг к центру ракеты
-        painter.rotate(rotationAngle); // Поворачиваем координатную систему
-        painter.translate(0, 50); // Возвращаем обратно
-        drawRocket(&painter); // Рисуем ракету
-        painter.restore(); // Восстанавливаем координатную систему
-    }
-
-private:
-    double rotationAngle; // Угол поворота ракеты
-
-    void drawRocket(QPainter *painter) {
-        // Рисуем основное тело
-        painter->setBrush(Qt::red);
-        painter->drawRect(-12, -48, 24, 48);
-
-        // Рисуем нос ракеты
-        QPolygonF nose;
-        nose << QPointF(-12, -48) << QPointF(12, -48) << QPointF(0, -68);
-        painter->setBrush(Qt::gray);
-        painter->drawPolygon(nose);
-
-        // Рисуем двигатели
-        painter->setBrush(Qt::yellow);
-        painter->drawRect(-10, 0, 6, 10);
-        painter->drawRect(4, 0, 6, 10);
-
-        // Дополнительные элементы
-        painter->setBrush(Qt::darkGray);
-        painter->drawEllipse(QPointF(0, 10), 4, 6);
-    }
-
-    void drawPlatforms(QPainter *painter) {
-        // Рисуем платформы как статичные элементы
-        painter->setBrush(Qt::blue);
-
-        // Левая платформа
-        painter->drawRect(-100, 0, 50, 10);
-
-        // Правая платформа
-        painter->drawRect(50, 0, 50, 10);
-    }
-};
+    // Центральный круглый элемент
+    painter->setBrush(Qt::darkGray);
+    painter->drawEllipse(QPointF(0, 20), 4, 6);
+}
 
