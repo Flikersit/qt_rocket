@@ -1,21 +1,32 @@
-void RocketWidget::drawRocket(QPainter *painter) {
-    // Основное тело ракеты
-    painter->setBrush(Qt::red);
-    painter->drawRect(-12, -48, 24, 48); // Тело размером 24x48
+#include <QApplication>
+#include "RocketWidget.h"
 
-    // Нос ракеты
-    QPolygonF nose;
-    nose << QPointF(-12, -48) << QPointF(12, -48) << QPointF(0, -68); // Нос выше тела
-    painter->setBrush(Qt::gray);
-    painter->drawPolygon(nose);
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
 
-    // Боковые двигатели на высоте 42
-    painter->setBrush(Qt::yellow);
-    painter->drawRect(-10, 42, 6, 6); // Левый двигатель
-    painter->drawRect(4, 42, 6, 6);  // Правый двигатель
+    // Создаем виджет ракеты
+    RocketWidget rocketWidget;
+    rocketWidget.resize(800, 600); // Устанавливаем размер окна
+    rocketWidget.setRocketPosition(0, 50); // Начальные координаты ракеты
+    rocketWidget.setRotation(0); // Начальный угол поворота
+    rocketWidget.show();
 
-    // Центральный круглый элемент
-    painter->setBrush(Qt::darkGray);
-    painter->drawEllipse(QPointF(0, 20), 4, 6);
+    // Пример изменения положения и поворота через таймер
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, [&]() {
+        static double x = 0;
+        static double y = 50;
+        static double angle = 0;
+
+        x += 5; // Двигаем ракету вправо
+        angle += 5; // Увеличиваем угол поворота
+
+        if (x > 400) x = -400; // Возвращаем влево, если ракета выходит за пределы
+        rocketWidget.setRocketPosition(x, y); // Обновляем координаты ракеты
+        rocketWidget.setRotation(angle); // Обновляем угол поворота
+    });
+    timer.start(50); // Обновление каждые 50 мс
+
+    return app.exec();
 }
 
