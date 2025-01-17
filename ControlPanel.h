@@ -7,29 +7,26 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QCheckBox>
+#include <QLineEdit>
 #include <QtCharts/QChartView>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QChart>
-#include "./RocketObject.h"
-#include "./RocketScene.h"
+#include "./RocketSceneFinal.h"
 #include "./Sibka.h"
-#include "./CustomView.h"
 
 
 class ControlPanel: public QWidget{
     Q_OBJECT
 
 public:
-    ControlPanel(QWidget *parent = nullptr, RocketScene *scene = nullptr);
-    void resizeEvent(QResizeEvent *event) override;
+    ControlPanel(QWidget *parent = nullptr, RocketSceneFinal *scene = nullptr);
     void resetSim();
+    void resizeEvent(QResizeEvent *event) override;
 
-    RocketScene *scene;
-    QGraphicsView *view;
-    //CustomView *view;
+    RocketSceneFinal *scene;
     Sibka *sibka;
 
     QNetworkAccessManager* networkManager;
@@ -48,6 +45,12 @@ public:
     QLabel *xposition;
     QLabel *yposition;
     QLabel *rotation;
+
+    QLabel *labelWidth;
+    QLabel *labelHeight;
+    
+    QLineEdit *inputWidth;
+    QLineEdit *inputHeight;
 
     QBarSet *vSet;
 
@@ -73,6 +76,7 @@ public slots:
         void left_engine_change();
         void right_engine_change();
         void main_changed();
+        void update_size();
 
 
 protected:
