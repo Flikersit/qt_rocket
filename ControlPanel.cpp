@@ -11,13 +11,36 @@
 
 
 
-ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
+ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene){
 
     this->scene = scene;
     reset = false;
 
-    
+    //reset button + scene sizw
     resetButton = new QPushButton("Reset");
+    labelWidth = new QLabel("Scene width");
+    labelHeight = new QLabel("Scene height");
+    inputWidth = new QLineEdit;
+    inputHeight = new QLineEdit;
+    QIntValidator *validator = new QIntValidator(100, 1500);
+    inputHeight->setValidator(validator);
+    inputWidth->setValidator(validator);
+    inputHeight->setText(QString::number(scene->height()));
+    inputWidth->setText(QString::number(scene->width()));
+    inputHeight->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
+    inputWidth->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
+    labelHeight->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
+    labelWidth->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
+
+    QVBoxLayout *scenelayout = new QVBoxLayout;
+    scenelayout->addWidget(resetButton);
+    scenelayout->addWidget(labelWidth);
+    scenelayout->addWidget(inputWidth);
+    scenelayout->addWidget(labelHeight);
+    scenelayout->addWidget(inputHeight);
+
+    QWidget *scenerozmer = new QWidget();
+    scenerozmer->setLayout(scenelayout);
     
 
     //switch left/right
@@ -41,12 +64,13 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     QWidget *status_widget = new QWidget();
     QVBoxLayout *statusbox = new QVBoxLayout(this);
     statusLabel = new QLabel("Rocket state: ");
-    connection = new QLabel("Connection state: " + QVariant(scene->rocket->isconnected).toString() );
+    connection = new QLabel("Connection state: " + QVariant(scene->isconnected).toString() );
     connection->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
     statusLabel->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
     statusbox->addWidget(connection);
     statusbox->addWidget(statusLabel);
     status_widget->setLayout(statusbox);
+    statusLabel->setText("Rocket state: Touchdown");
 
 
     //Slider for the main enginee
@@ -66,11 +90,10 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
 
 
     //position
-    scene->rocket->refresh_position();
     QWidget *coordinate_widget = new QWidget(); 
     QVBoxLayout *coordinate_layout = new QVBoxLayout(this);
-    xposition = new QLabel("X position: " +  QString::number(scene->rocket->x));
-    yposition = new QLabel("Y position: " +  QString::number(scene->rocket->y));
+    xposition = new QLabel("X position: " +  QString::number(scene->x));
+    yposition = new QLabel("Y position: " +  QString::number(scene->y));
     rotation = new QLabel("Rotation: 0");
     xposition->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
     yposition->setStyleSheet("color: black; background-color: #f5f5f5; padding: 5px;");
@@ -109,11 +132,11 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
 
     //for arrow
     sibka = new Sibka();
+    sibka->update_arrow(0, 0);
 
 
 
-
-    layout->addWidget(resetButton);
+    layout->addWidget(scenerozmer);
     layout->addWidget(status_widget);
     layout->addWidget(coordinate_widget);
     layout->addWidget(check_widget);
@@ -125,19 +148,7 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     hwidget->setLayout(layout);
     vlayout->addWidget(hwidget);
 
-    view = new QGraphicsView(this->scene);
-    //view = new CustomView(this->scene);
-
-    QTransform transform;//
-    transform.scale(1, -1);//
-    view->setTransform(transform);//
-    view->setRenderHint(QPainter::Antialiasing);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //iew->setFixedSize(scene->width, scene->height);
-    //view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
-
-    vlayout->addWidget(view);
+    vlayout->addWidget(scene);
 
     setLayout(vlayout);
 
@@ -150,9 +161,11 @@ ControlPanel::ControlPanel(QWidget *parent, RocketScene *scene){
     connect(checkbox_left, &QCheckBox::stateChanged, this, &ControlPanel::left_engine_change);
     connect(checkbox_right, &QCheckBox::stateChanged, this, &ControlPanel::right_engine_change);
     connect(thrustSlider, &QSlider::valueChanged, this, &ControlPanel::main_changed);
+    connect(inputWidth, &QLineEdit::textChanged, this, &ControlPanel::update_size);
+    connect(inputHeight, &QLineEdit::textChanged, this, &ControlPanel::update_size);
 
 
-    timer.start(250);
+    timer.start(1000);
 }
 
 
@@ -220,34 +233,40 @@ void ControlPanel::onDataReceived(){
     vSet->replace(1, abs(vy));
     chart->update();
 
-    scene->rocket->main_engine = main_engine;
-    scene->rocket->isconnected = true;
-    scene->rocket->x = x_position;
-    scene->rocket->y = y_position;
-    scene->rocket->rotation = rotation;
+    scene->main_engine = main_engine;
+    scene->isconnected = true;
+    scene->x = x_position;
+    scene->y = y_position;
+    scene->rotation = rotation*(((180.0/M_PI))*100)/100;
 
-    xposition->setText("X position: " + QString::number(round((scene->rocket->x)*100)/100));
-    yposition->setText("Y position: " + QString::number(round((scene->rocket->y)*100)/100));
-    this->rotation->setText("Rotation: " + QString::number(round(((scene->rocket->rotation)*(180.0/M_PI))*100)/100));
+    xposition->setText("X position: " + QString::number(round((scene->x)*100)/100));
+    yposition->setText("Y position: " + QString::number(round((scene->y)*100)/100));
+    this->rotation->setText("Rotation: " + QString::number(round(((scene->rotation))*100)/100));
 
     if(touchdown){
         statusLabel->setText("Rocket state: Touchdown");
+        scene->in_air = false;
     }else if(crashed){
         statusLabel->setText("Rocket state: Crashed");
+        scene->in_platform = false;
+        scene->in_air = false;
     }else{
         statusLabel->setText("Rocket state: In air");
+        scene->in_platform = false;
+        scene->in_air = true;
     }
-    connection->setText("Connection state: " + QVariant(scene->rocket->isconnected).toString() );
+    connection->setText("Connection state: " + QVariant(scene->isconnected).toString() );
 
-    scene->width = width/2;
-    scene->height = height;
+    scene->serverWidth = width;
+    scene->serverHeight = height;
     scene->launchPadOffSet = lounch_pad;
 
-    scene->paint_position(x_position, y_position);
+
+    scene->setPositionUpdate(x_position, y_position);
 
 
     double factor = sqrt(pow(vx, 2) + pow(vy, 2));
-    sibka->update_arrow(round(((scene->rocket->rotation)*(180.0/M_PI))*100)/100, factor*5);
+    sibka->update_arrow(round(((scene->rotation))*100)/100, factor*5);
 
 }
 
@@ -275,7 +294,7 @@ void ControlPanel::post_left_thruster(){
     QString payload;
 	payload += "{";
 	payload += "\"v\":";
-	payload += QVariant(this->scene->rocket->leftEngine).toString();
+	payload += QVariant(this->scene->leftEngine).toString();
 	payload += "}";
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
@@ -307,7 +326,7 @@ void ControlPanel::post_right_thruster(){
     QString payload;
 	payload += "{";
 	payload += "\"v\":";
-	payload += QVariant(this->scene->rocket->rightEngine).toString();
+	payload += QVariant(this->scene->rightEngine).toString();
 	payload += "}";
 
     qDebug()<<"Payload for right thruster" << payload;
@@ -339,7 +358,7 @@ void ControlPanel::post_main_engine(){
     QString payload;
 	payload += "{";
 	payload += "\"v\":";
-	payload += QString::number(this->scene->rocket->main_engine);
+	payload += QString::number(this->scene->main_engine);
 	payload += "}";
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
@@ -372,7 +391,7 @@ void ControlPanel::post_height(){
     QString payload;
 	payload += "{";
 	payload += "\"v\": ";
-	payload += QString::number(this->scene->height);
+	payload += QString::number(this->scene->height());
 	payload += "}";
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
@@ -402,7 +421,7 @@ void ControlPanel::post_width(){
     QString payload;
 	payload += "{";
 	payload += "\"v\":";
-	payload += QString::number(this->scene->width);
+	payload += QString::number(this->scene->width());
 	payload += "}";
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
@@ -443,8 +462,8 @@ void ControlPanel::post_reset(){
 
 
 void ControlPanel::onError(QNetworkReply::NetworkError code){
-    scene->rocket->isconnected = false;
-    connection->setText("Connection state: " + QVariant(scene->rocket->isconnected).toString());
+    scene->isconnected = false;
+    connection->setText("Connection state: " + QVariant(scene->isconnected).toString());
 
 }
 
@@ -469,21 +488,21 @@ void ControlPanel::keyPressEvent(QKeyEvent *event){
 
 void ControlPanel::left_engine_change(){
 
-    scene->rocket->leftEngine = checkbox_left->isChecked();
+    scene->leftEngine = checkbox_left->isChecked();
     this->post_left_thruster();
 
 }
 
 void ControlPanel::right_engine_change(){
 
-    scene->rocket->rightEngine = checkbox_right->isChecked();
+    scene->rightEngine = checkbox_right->isChecked();
     this->post_right_thruster();
 
 }
 
 void ControlPanel::main_changed(){
     double newValue = double(thrustSlider->value()) / 10;
-    scene->rocket->main_engine = newValue;  
+    scene->main_engine = newValue;  
     qDebug() << "Main engine updated locally:" << newValue;
     post_main_engine();
 }
@@ -494,27 +513,22 @@ void ControlPanel::resetSim(){
     main_changed();
     checkbox_left->setChecked(false);
     checkbox_right->setChecked(false);
+    scene->in_platform = true;
+    scene->rotation = 0;
+    scene->rightEngine = false;
+    scene->leftEngine = false;
+    scene->y = 24;
     this->post_reset();
     
 }
 
-//
+void ControlPanel::update_size(){
+    int newWidth = inputWidth->text().toInt();
+    int newHeight = inputHeight->text().toInt();
+    scene->resize(newWidth, newHeight);
+}
+
 void ControlPanel::resizeEvent(QResizeEvent *event) {
-
-    scene->aspectRatio = scene->width/scene->height;
-
-    int newWidth = event->size().width();
-    int newHeight = event->size().height();
-
-    if (newWidth < newHeight){
-        newHeight = static_cast<int>(newWidth)/scene->aspectRatio;
-    }else{
-        newWidth = static_cast<int>(newHeight)*scene->aspectRatio;
-    }
-    scene->setSceneRect(-(newWidth/2), 0, newWidth, newHeight);
-    view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
-    scene->width = newWidth;
-    scene->height = newHeight;
-    //scene->res_event();
-
+    inputHeight->setText(QString::number(scene->height()));
+    inputWidth->setText(QString::number(scene->width()));
 }
