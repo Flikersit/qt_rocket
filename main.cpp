@@ -14,8 +14,7 @@ int main(int argc, char **argv)
     mainWindow->resize(800, 600);
 
 
-    RocketObject *rObject = new RocketObject();
-    RocketScene *rScene = new RocketScene(rObject);
+    RocketSceneFinal *rScene = new RocketSceneFinal();
     ControlPanel *rPanel = new ControlPanel(nullptr, rScene);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(mainWindow);
