@@ -5,27 +5,48 @@ RocketSceneFinal::RocketSceneFinal(QWidget *parent){
     launchPadOffSet = 30;
     rotation = 0.0;
     x = -width()/2 + launchPadOffSet + 25;
-    y = 46;
+    y = 24;
+    isconnected = false;
+    serverHeight = 0.0;
+    serverWidth = 0.0;
+    update();
 
 }
 
 void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
+    if (serverHeight !=0.0 & serverWidth !=0.0){
+        Hscale = static_cast<double>(height())/serverHeight;
+        Wscale = static_cast<double>(width())/serverWidth;
+    }
     QPainter painter(this);
     painter.translate(width()/2, height());
     painter.scale(1, -1);
 
     painter.setBrush(Qt::black);
-    painter.drawRect(-width()/2, height(), width(), height());
+    painter.drawRect(-width()/2, 0, width(), height());
 
     painter.setBrush(Qt::blue);
     painter.drawRect(-width()/2 + launchPadOffSet, 10, 50, 10);
-    painter.drawRect(width()/2 - launchPadOffSet, 10, 50, 10);
+    painter.drawRect(width()/2 - launchPadOffSet - 50, 10, 50, 10);
 
     painter.save();
-    painter.translate(x, y);
-    painter.translate(0, -15);
+
+    if(in_platform & serverHeight == 0.0 & serverWidth == 0.0){
+        x = -width()/2 + launchPadOffSet + 25;
+    //}else if(in_platform){
+
+    }else{
+        if (serverHeight == 0.0 & serverWidth == 0.0){
+            Wscale = 1.0;
+            Hscale = 1.0;
+        }
+        //x = x + 25;
+    }
+
+    painter.translate(x*Wscale, y*Hscale);
+    painter.translate(0, 42);
     painter.rotate(rotation);
-    painter.translate(0, 15);
+    painter.translate(0, -22);
     paintRocket(&painter);
 
     painter.restore();
@@ -35,7 +56,9 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
 }
 
 void RocketSceneFinal::paintRocket(QPainter *painter) {
+
     // Рисуем основное тело
+    painter->scale(1, -1);
     painter->setBrush(Qt::red);
     painter->drawRect(-12, -48, 24, 48);
 
@@ -47,11 +70,34 @@ void RocketSceneFinal::paintRocket(QPainter *painter) {
 
     // Рисуем двигатели
     painter->setBrush(Qt::yellow);
-    painter->drawRect(-10, 42, 6, 6);
-    painter->drawRect(4, 42, 6, 6);
+    painter->drawRect(-10, 0, 6, 6);
+    painter->drawRect(4, 0, 6, 6);
 
     // Дополнительные элементы
     painter->setBrush(Qt::darkGray);
-    painter->drawEllipse(QPointF(0, 20), 4, 6);
+    painter->drawEllipse(QPointF(0, 5), 4, 6);
 }
 
+void RocketSceneFinal::setPositionUpdate(int x, int y){
+    this->x = x;
+    this->y = y;
+    update();
+
+}
+
+void RocketSceneFinal::setRotationUpdate(double uhel){
+    this->rotation = uhel;
+    update();
+
+}
+
+//void RocketSceneFinal::setSceneDimensions(int width, int height){
+//    this->sceneWidth = width;
+//    this->sceneHeight = height;
+//    setFixedSize();
+
+//}
+
+QSize RocketSceneFinal::sizeHint() const {
+    return QSize(1000, 600); // Укажите подходящие размеры
+}
