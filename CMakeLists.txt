@@ -7,11 +7,9 @@ qt_standard_project_setup()
 
 qt_add_executable(hello_world_qt
     main.cpp
-    RocketObject.cpp RocketObject.h
-    RocketScene.cpp RocketScene.h
     ControlPanel.cpp ControlPanel.h
     Sibka.cpp Sibka.h
-    CustomView.cpp CustomView.h
+    RocketSceneFinal.cpp RocketSceneFinal.h
 )
 
 set_target_properties(hello_world_qt PROPERTIES
