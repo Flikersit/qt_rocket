@@ -1,4 +1,5 @@
 #include <QPainter>
+#include <QSizePolicy>
 #include "RocketSceneFinal.h"
 
 RocketSceneFinal::RocketSceneFinal(QWidget *parent){
@@ -11,6 +12,7 @@ RocketSceneFinal::RocketSceneFinal(QWidget *parent){
     serverHeight = 0.0;
     serverWidth = 0.0;
     in_air = false;
+    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     update();
 
 }
@@ -46,7 +48,7 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
         }
     }
 
-    painter.translate(x*Wscale + 25, y*Hscale);
+    painter.translate(x*Wscale + 16*Wscale, y*Hscale);
     painter.translate(0, 42);
     painter.rotate(rotation);
     painter.translate(0, -22);
@@ -84,16 +86,16 @@ void RocketSceneFinal::paintRocket(QPainter *painter) {
         // Цвет огня
         painter->setBrush(QColor(255, 165, 0));
         QPolygonF flame;
-        flame << QPointF(-10, 5)  // Левый край огня
-              << QPointF(10, 5)   // Правый край огня
-              << QPointF(0, 20); // Нижняя точка огня (самый низ пламени)
+        flame << QPointF(-10, 5) 
+              << QPointF(10, 5)   
+              << QPointF(0, 20); 
         painter->drawPolygon(flame);
 
         painter->setBrush(Qt::yellow);
         QPolygonF innerFlame;
-        innerFlame << QPointF(-6, 6)  // Левый край внутреннего огня
-                   << QPointF(6, 6)   // Правый край внутреннего огня
-                   << QPointF(0, 15); // Нижняя точка внутреннего огня
+        innerFlame << QPointF(-6, 6)
+                   << QPointF(6, 6)   
+                   << QPointF(0, 15); 
         painter->drawPolygon(innerFlame);
     }
 }
@@ -101,43 +103,12 @@ void RocketSceneFinal::paintRocket(QPainter *painter) {
 void RocketSceneFinal::setPositionUpdate(int x, int y){
     this->x = x;
     this->y = y;
+    updateGeometry();
     update();
 
 }
 
-void RocketSceneFinal::setRotationUpdate(double uhel){
-    this->rotation = uhel;
-    update();
-
-}
-
-//void RocketSceneFinal::setSceneDimensions(int width, int height){
-//    this->sceneWidth = width;
-//    this->sceneHeight = height;
-//    setFixedSize();
-
-//}
 
 QSize RocketSceneFinal::sizeHint() const {
-    return QSize(1000, 600); // Укажите подходящие размеры
-}
-
-void RocketSceneFinal::resizeEvent(QResizeEvent *event){
-    double new_aspect = static_cast<double>(height())/static_cast<double>(width());
-    if (new_aspect != 0.6){
-        if (new_aspect>0.6)
-        {
-            resize(width(), static_cast<double>(width())*aspectratio);
-
-        }else{
-            resize(static_cast<double>(height())* (1/aspectratio), height());
-        }
-        
-
-    }
-
-
-
-    update();
-
+    return QSize(serverWidth, serverHeight); 
 }
