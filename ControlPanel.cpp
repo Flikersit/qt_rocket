@@ -14,8 +14,8 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
 
     this->scene = scene;
     reset = false;
-    last_w = 0;
-    last_h = 0;
+    last_w = 0.0;
+    last_h = 0.0;
 
     // reset button + scene sizw
     resetButton = new QPushButton("Reset");
@@ -297,10 +297,11 @@ void ControlPanel::onDataReceived()
         if(last_h==0 & last_w==0){
             last_h=height;
             last_w=width;
-        }else if(last_h != height & last_w != width){
+        }else if((last_h != height) || (last_w != width)){
             last_h = height;
             last_w = width;
             this->resetSim();
+            qDebug()<<"There";
         }
 
 
