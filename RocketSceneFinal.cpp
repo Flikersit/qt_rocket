@@ -12,6 +12,7 @@ RocketSceneFinal::RocketSceneFinal(QWidget *parent){
     serverHeight = 0.0;
     serverWidth = 0.0;
     in_air = false;
+    this->setMinimumSize(100, 100);
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     update();
 
@@ -40,15 +41,17 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
 
     if(in_platform & serverHeight == 0.0 & serverWidth == 0.0){
         x = -width()/2 + launchPadOffSet;
+        qDebug()<< "disconnect";
 
     }else{
         if (serverHeight == 0.0 & serverWidth == 0.0){
+            qDebug()<<"Wscale=1";
             Wscale = 1.0;
             Hscale = 1.0;
         }
     }
-
-    painter.translate(x*Wscale + 16*Wscale, y*Hscale);
+    qDebug()<<"X"<<x;
+    painter.translate(x*Wscale + 25, y*Hscale);
     painter.translate(0, 42);
     painter.rotate(rotation);
     painter.translate(0, -22);
