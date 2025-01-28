@@ -40,6 +40,9 @@ public:
 
     QLabel *check_label;
 
+    int last_h;
+    int last_w;
+
     QLabel *statusLabel;      // Status display
     QLabel *connection;      // connection label
     QLabel *xposition;
@@ -62,8 +65,10 @@ public:
     QTimer timer;
 
     bool reset;
+    bool vykreslit;
 
 public slots:
+        void ontimeout();
         void requestData();
         void onDataReceived();
         void post_main_engine();
@@ -76,7 +81,8 @@ public slots:
         void left_engine_change();
         void right_engine_change();
         void main_changed();
-        void update_size();
+        void update_sizeW();
+        void update_sizeH();
 
 
 protected:
