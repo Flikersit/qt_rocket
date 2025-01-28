@@ -40,8 +40,8 @@ public:
 
     QLabel *check_label;
 
-    int last_h;
-    int last_w;
+    double last_h;
+    double last_w;
 
     QLabel *statusLabel;      // Status display
     QLabel *connection;      // connection label
