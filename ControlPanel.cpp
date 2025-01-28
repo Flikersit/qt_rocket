@@ -14,6 +14,8 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
 
     this->scene = scene;
     reset = false;
+    last_w = 0;
+    last_h = 0;
 
     // reset button + scene sizw
     resetButton = new QPushButton("Reset");
@@ -127,6 +129,7 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     series->attachAxis(axisY);
     QChartView *chartView = new QChartView(chart);
     //chartView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    chartView->setFixedSize(200, 200);
     chartView->setRenderHint(QPainter::Antialiasing);
     //
 
@@ -158,8 +161,8 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     connect(checkbox_left, &QCheckBox::stateChanged, this, &ControlPanel::left_engine_change);
     connect(checkbox_right, &QCheckBox::stateChanged, this, &ControlPanel::right_engine_change);
     connect(thrustSlider, &QSlider::valueChanged, this, &ControlPanel::main_changed);
-    connect(inputWidth, &QLineEdit::textChanged, this, &ControlPanel::update_size);
-    connect(inputHeight, &QLineEdit::textChanged, this, &ControlPanel::update_size);
+    connect(inputWidth, &QLineEdit::textChanged, this, &ControlPanel::update_sizeW);
+    connect(inputHeight, &QLineEdit::textChanged, this, &ControlPanel::update_sizeH);
 
     checkbox_left->setEnabled(false);
     checkbox_right->setEnabled(false);
@@ -209,7 +212,7 @@ void ControlPanel::onDataReceived()
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
     QByteArray data = reply->readAll();
     QString str(data);
-    qDebug() << "Geted data from server " << str;
+    //qDebug() << "Geted data from server " << str;
 
     QJsonDocument jDoc = QJsonDocument::fromJson(data);
     QJsonObject jResponse = jDoc.object();
@@ -224,8 +227,6 @@ void ControlPanel::onDataReceived()
         checkbox_right->setEnabled(true);
         thrustSlider->setEnabled(true);
         resetButton->setEnabled(true);
-        inputHeight->setEnabled(true);
-        inputWidth->setEnabled(true);
 
         double height = jResponse["subitems"].toArray()[5].toObject()["Height"].toObject()["v"].toDouble();
         double width = jResponse["subitems"].toArray()[4].toObject()["Width"].toObject()["v"].toDouble();
@@ -248,7 +249,7 @@ void ControlPanel::onDataReceived()
 
         bool reset = jResponse["subitems"].toArray()[3].toObject()["Reset"].toObject()["v"].toBool();
 
-        qDebug() << "Ryclost po ose x GRAF" << vx;
+        //qDebug() << "Ryclost po ose x GRAF" << vx;
         vSet->replace(0, abs(vx));
         vSet->replace(1, abs(vy));
         chart->update();
@@ -291,7 +292,17 @@ void ControlPanel::onDataReceived()
 
         if(vykreslit){
             scene->setPositionUpdate(x_position, y_position);
+            //qDebug()<<"Vykreslit!";
         }
+        if(last_h==0 & last_w==0){
+            last_h=height;
+            last_w=width;
+        }else if(last_h != height & last_w != width){
+            last_h = height;
+            last_w = width;
+            this->resetSim();
+        }
+
 
         double factor = sqrt(pow(vx, 2) + pow(vy, 2));
         sibka->update_arrow(round(((scene->rotation)) * 100) / 100, factor * 5);
@@ -354,7 +365,7 @@ void ControlPanel::post_right_thruster()
     payload += QVariant(this->scene->rightEngine).toString();
     payload += "}";
 
-    qDebug() << "Payload for right thruster" << payload;
+    //qDebug() << "Payload for right thruster" << payload;
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
     vykreslit = false;
@@ -540,7 +551,7 @@ void ControlPanel::main_changed()
 {
     double newValue = double(thrustSlider->value()) / 10;
     scene->main_engine = newValue;
-    qDebug() << "Main engine updated locally:" << newValue;
+    //qDebug() << "Main engine updated locally:" << newValue;
     post_main_engine();
 }
 
@@ -558,11 +569,15 @@ void ControlPanel::resetSim()
     this->post_reset();
 }
 
-void ControlPanel::update_size()
+void ControlPanel::update_sizeW()
 {
     int newWidth = inputWidth->text().toInt();
-    int newHeight = inputHeight->text().toInt();
-    scene->resize(newWidth, newHeight);
+    scene->resize(newWidth, scene->height());
+}
+
+void ControlPanel::update_sizeH(){
+    int newHight = inputHeight->text().toInt();
+    scene->resize(scene->width(), newHight);
 }
 
 void ControlPanel::resizeEvent(QResizeEvent *event)
