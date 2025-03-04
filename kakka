@@ -1,0 +1,10 @@
+double correctW = 0;
+        double correctH = 0;
+        if(scene->serverHeight != height || scene->serverWidth != width){
+
+            correctW = width - scene->width();
+            correctH = height - scene->height();
+            this->resize(this->width() + correctW, this->height() + correctH);
+            qDebug()<<"Correct Width: " << correctW;
+            qDebug()<<"Correct Height: "<< correctH;
+        }
