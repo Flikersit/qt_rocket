@@ -16,6 +16,9 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     reset = false;
     last_w = 0.0;
     last_h = 0.0;
+    //this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //this->setMaximumSize(800, 600);
+    glayout = new QGridLayout();
 
     // reset button + scene sizw
     resetButton = new QPushButton("Reset");
@@ -137,21 +140,64 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     sibka = new Sibka();
     sibka->update_arrow(0, 0);
 
-    layout->addWidget(scenerozmer);
-    layout->addWidget(status_widget);
-    layout->addWidget(coordinate_widget);
-    layout->addWidget(check_widget);
-    layout->addWidget(widget_for_slider);
-    layout->addWidget(chartView);
-    layout->addWidget(sibka->view);
+    //layout->addWidget(scenerozmer);
+    //layout->addWidget(status_widget);
+    //layout->addWidget(coordinate_widget);
+    //layout->addWidget(check_widget);
+    //layout->addWidget(widget_for_slider);
+    //layout->addWidget(chartView);
+    //layout->addWidget(sibka->view);
 
-    QWidget *hwidget = new QWidget();
-    hwidget->setLayout(layout);
-    vlayout->addWidget(hwidget);
+    //QWidget *hwidget = new QWidget();
+    //hwidget->setLayout(layout);
+    //vlayout->addWidget(hwidget);
 
-    vlayout->addWidget(scene);
+    //vlayout->addWidget(scene);
+    
 
-    setLayout(vlayout);
+
+    this->resize(400, 450);
+    scenerozmer->setContentsMargins(0, 0, 0, 0);
+    scenerozmer->layout()->setSpacing(0);
+    status_widget->setContentsMargins(0, 0, 0, 0);
+    status_widget->layout()->setSpacing(0);
+    coordinate_widget->setContentsMargins(0, 0, 0, 0);
+    coordinate_widget->layout()->setSpacing(0);
+    widget_for_slider->setContentsMargins(0, 0, 0, 0);
+    widget_for_slider->layout()->setSpacing(0);
+    check_widget->setContentsMargins(0, 0, 0, 0);
+    check_widget->layout()->setSpacing(0);
+    chartView->setContentsMargins(0, 0, 0, 0);
+    //chartView->layout()->setSpacing(0);
+    scene->setContentsMargins(0, 0, 0, 0);
+    //scene->layout()->setSpacing(0);
+    sibka->view->setContentsMargins(0, 0, 0, 0);
+    //sibka->view->layout()->setSpacing(0);
+
+    //grid layout taring 
+    glayout->setSpacing(0);
+    glayout->setContentsMargins(0, 0, 0, 0);
+    glayout->setColumnStretch(1, 0);
+    glayout->setColumnStretch(1, 1);
+    glayout->setRowStretch(0, 0);
+    glayout->setRowStretch(1, 0);
+    glayout->setRowStretch(2, 1);
+
+
+
+
+    if (this->layout()){
+        delete this->layout();
+    }
+    glayout->addWidget(scenerozmer, 0, 0, 1, 2);
+    glayout->addWidget(status_widget, 0, 2, 1, 2);
+    glayout->addWidget(coordinate_widget, 0, 4, 1, 2);
+    glayout->addWidget(widget_for_slider, 1, 2, 1, 2);
+    glayout->addWidget(check_widget, 1, 0, 1, 2);
+    glayout->addWidget(chartView, 2, 4, 1, 2);
+    glayout->addWidget(sibka->view, 1, 4, 1, 2);
+    glayout->addWidget(scene, 2, 0, 3, 4);
+    this->setLayout(glayout);
 
     networkManager = new QNetworkAccessManager(this);
 
@@ -172,11 +218,15 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     inputWidth->setEnabled(false);
 
     timer.start(100);
+    qDebug()<<"Width: " << width();
+    qDebug()<<"Height: " << height();
 }
 
 
 void ControlPanel::ontimeout(){
     vykreslit = true;
+    qDebug()<<"Width: " << width();
+    qDebug()<<"Height: " << height();
     requestData();
 }
 
@@ -284,11 +334,31 @@ void ControlPanel::onDataReceived()
             scene->in_air = true;
         }
         connection->setText("Connection state: " + QVariant(scene->isconnected).toString());
+        double correctW = 0;
+        double correctH = 0;
+        if(scene->serverHeight != height || scene->serverWidth != width){
 
+            correctW = width - scene->width();
+            correctH = height - scene->height();
+            QLayout *layout = this->layout();
+            if(layout){
+                layout->setEnabled(false);
+            }
+            this->resize(this->width() + correctW, this->height() + correctH);
+            if(layout){
+                layout->setEnabled(true);
+            }
+            //this->adjustSize();
+            //qDebug()<<"Correct Width: " << correctW;
+            //qDebug()<<"Correct Height: "<< correctH;
+        }
+        scene->updateGeometry();
         scene->serverWidth = width;
         scene->serverHeight = height;
         scene->launchPadOffSet = lounch_pad;
         scene->sizeHint();
+        scene->resize(width, height);
+        
 
         if(vykreslit){
             scene->setPositionUpdate(x_position, y_position);
@@ -510,24 +580,24 @@ void ControlPanel::onError(QNetworkReply::NetworkError code)
 void ControlPanel::keyPressEvent(QKeyEvent *event)
 {
 
-    if (event->key() == Qt::Key_R)
+    if (event->key() == Qt::Key_R & scene->isconnected)
     {
         this->resetSim();
     }
-    else if (event->key() == Qt::Key_A)
+    else if (event->key() == Qt::Key_A & scene->isconnected)
     {
         checkbox_left->setChecked(!(checkbox_left->isChecked()));
     }
-    else if (event->key() == Qt::Key_D)
+    else if (event->key() == Qt::Key_D & scene->isconnected)
     {
         checkbox_right->setChecked(!(checkbox_right->isChecked()));
     }
-    else if (event->key() == Qt::Key_W)
+    else if (event->key() == Qt::Key_W & scene->isconnected)
     {
         int value = thrustSlider->value();
         thrustSlider->setValue(value + 1);
     }
-    else if (event->key() == Qt::Key_S)
+    else if (event->key() == Qt::Key_S & scene->isconnected)
     {
         int value = thrustSlider->value();
         thrustSlider->setValue(value - 1);
