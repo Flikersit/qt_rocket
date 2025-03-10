@@ -1,6 +1,7 @@
 #include <QPainter>
 #include <QSizePolicy>
 #include "RocketSceneFinal.h"
+#include <QtGlobal>
 
 RocketSceneFinal::RocketSceneFinal(QWidget *parent){
     aspectratio = 0.6;
@@ -9,11 +10,12 @@ RocketSceneFinal::RocketSceneFinal(QWidget *parent){
     x = -width()/2 + launchPadOffSet;
     y = 5;
     isconnected = false;
-    serverHeight = 0.0;
+    serverHeight =0.0;
     serverWidth = 0.0;
     in_air = false;
     this->setMinimumSize(100, 100);
-    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->resize(200, 290);
     update();
 
 }
@@ -113,5 +115,12 @@ void RocketSceneFinal::setPositionUpdate(int x, int y){
 
 
 QSize RocketSceneFinal::sizeHint() const {
+    
     return QSize(serverWidth, serverHeight); 
+}
+
+
+void RocketSceneFinal::resizeEvent(QResizeEvent *event){
+    updateGeometry();
+    update();
 }
