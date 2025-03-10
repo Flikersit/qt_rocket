@@ -334,30 +334,26 @@ void ControlPanel::onDataReceived()
             scene->in_air = true;
         }
         connection->setText("Connection state: " + QVariant(scene->isconnected).toString());
-        double correctW = 0;
-        double correctH = 0;
-        if(scene->serverHeight != height || scene->serverWidth != width){
-
-            correctW = width - scene->width();
-            correctH = height - scene->height();
-            QLayout *layout = this->layout();
-            if(layout){
-                layout->setEnabled(false);
-            }
-            this->resize(this->width() + correctW, this->height() + correctH);
-            if(layout){
-                layout->setEnabled(true);
-            }
-            //this->adjustSize();
-            //qDebug()<<"Correct Width: " << correctW;
-            //qDebug()<<"Correct Height: "<< correctH;
-        }
         scene->updateGeometry();
         scene->serverWidth = width;
         scene->serverHeight = height;
         scene->launchPadOffSet = lounch_pad;
         scene->sizeHint();
-        scene->resize(width, height);
+        if(scene->serverWidth != width || scene->serverHeight != height){
+            double new_aspect = width/height;
+            double w_scene = scene->width();
+            double h_scene = scene->height();
+            if(w_scene > h_scene){
+                scene->setFixedSize(h_scene*new_aspect, h_scene);
+                scene->updateGeometry();
+                scene->update();
+            }else{
+                new_aspect = height/width;
+                scene->setFixedSize(w_scene, new_aspect*w_scene);
+                scene->updateGeometry();
+                scene->update();
+            }
+        }
         
 
         if(vykreslit){
