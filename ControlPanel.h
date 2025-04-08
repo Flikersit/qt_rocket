@@ -6,6 +6,7 @@
 #include <QSlider>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QtCharts/QChartView>
@@ -63,6 +64,7 @@ public:
     QValueAxis *axisY;
 
     QTimer timer;
+    QGridLayout *glayout;
 
     bool reset;
     bool vykreslit;
