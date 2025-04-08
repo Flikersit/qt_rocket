@@ -62,6 +62,7 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     check_box_layout->addWidget(checkbox_left);
     check_box_layout->addWidget(checkbox_right);
     check_widget->setFixedSize(120, 160);
+    //check_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     check_widget->setLayout(check_box_layout);
 
     // status
@@ -334,27 +335,11 @@ void ControlPanel::onDataReceived()
             scene->in_air = true;
         }
         connection->setText("Connection state: " + QVariant(scene->isconnected).toString());
-        scene->updateGeometry();
+
         scene->serverWidth = width;
         scene->serverHeight = height;
         scene->launchPadOffSet = lounch_pad;
         scene->sizeHint();
-        if(scene->serverWidth != width || scene->serverHeight != height){
-            double new_aspect = width/height;
-            double w_scene = scene->width();
-            double h_scene = scene->height();
-            if(w_scene > h_scene){
-                scene->setFixedSize(h_scene*new_aspect, h_scene);
-                scene->updateGeometry();
-                scene->update();
-            }else{
-                new_aspect = height/width;
-                scene->setFixedSize(w_scene, new_aspect*w_scene);
-                scene->updateGeometry();
-                scene->update();
-            }
-        }
-        
 
         if(vykreslit){
             scene->setPositionUpdate(x_position, y_position);
@@ -366,6 +351,7 @@ void ControlPanel::onDataReceived()
         }else if((last_h != height) || (last_w != width)){
             last_h = height;
             last_w = width;
+            
             this->resetSim();
             qDebug()<<"There";
         }
