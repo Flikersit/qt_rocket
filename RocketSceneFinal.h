@@ -9,19 +9,26 @@ class RocketSceneFinal: public QWidget
 
 public:
     RocketSceneFinal(QWidget *parent = 0);
-    void paintRocket(QPainter *painter);
+    void paintRocket(QPainter *painter, double scaleX, double scaleY);
     void setPositionUpdate(int x, int y);
+    //void resizeEvent(QResizeEvent *event) override;
     QSize sizeHint() const;
 
     int launchPadOffSet;
+    int defaultHeight;
+    int defaultWidth;
 
     double x;
     double y;
     double rotation;
     double main_engine;
 
+    double real_width;
+    double real_height;
     double serverWidth;
     double serverHeight;
+    double lastWidth;
+    double lastHeight;
 
     int sceneWidth;
     int sceneHeight;
