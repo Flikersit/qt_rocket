@@ -11,7 +11,6 @@ int main(int argc, char **argv)
 
     QWidget *mainWindow = new QWidget();
     mainWindow->setWindowTitle("Rocket");
-    mainWindow->resize(800, 600);
 
 
     RocketSceneFinal *rScene = new RocketSceneFinal();
@@ -26,3 +25,4 @@ int main(int argc, char **argv)
 
     return app.exec();
 }
+
