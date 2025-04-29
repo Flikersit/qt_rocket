@@ -46,6 +46,9 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
     double scaleX = real_width/300;
     double scaleY = real_height/300;
 
+    double uniformscale = std::min(real_width / ((serverWidth > 0) ? serverWidth : defaultWidth),
+                                    real_height / ((serverHeight > 0) ? serverHeight : defaultHeight));
+
 
     int sceneWidth = (serverWidth > 0) ? serverWidth : defaultWidth;
     int sceneHeight = (serverHeight > 0) ? serverHeight : defaultHeight;
@@ -80,8 +83,8 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
     painter.drawRect(-real_width/2, 0, real_width, real_height);
 
     painter.setBrush(Qt::blue);
-    painter.drawRect(-real_width/2 + launchPadOffSet*Wscale, 10, 50*scaleX, 10*scaleY);
-    painter.drawRect(real_width/2 - launchPadOffSet*Wscale - 50*scaleX, 10, 50*scaleX, 10*scaleY);
+    painter.drawRect(-real_width/2 + launchPadOffSet*Wscale, 10, 50*uniformscale, 10*uniformscale);
+    painter.drawRect(real_width/2 - launchPadOffSet*Wscale - 50*uniformscale, 10, 50*uniformscale, 10*uniformscale);
 
     painter.save();
 
@@ -97,11 +100,11 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
         }
     }
     qDebug()<<"Wscale: "<< Wscale;
-    painter.translate(x*Wscale + 25*scaleX, y*Hscale + 5*Hscale);
-    painter.translate(0, 42*scaleY);
+    painter.translate(x*Wscale + 25*uniformscale, y*Hscale + 5*uniformscale);
+    painter.translate(0, 42*uniformscale);
     painter.rotate(rotation);
-    painter.translate(0, -22*scaleY);
-    paintRocket(&painter, scaleX, scaleY);
+    painter.translate(0, -22*uniformscale);
+    paintRocket(&painter, uniformscale);
 
     painter.restore();
 
@@ -109,19 +112,19 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
 
 }
 
-void RocketSceneFinal::paintRocket(QPainter *painter, double scaleX, double scaleY) {
+void RocketSceneFinal::paintRocket(QPainter *painter, double scale) {
 
     // Рисуем основное тело
     painter->scale(1, -1);
     painter->setBrush(Qt::red);
-    double bodyW = 12 * scaleX;
-    double bodyH = 48 * scaleY;
+    double bodyW = 12 * scale;
+    double bodyH = 48 * scale;
     painter->drawRect(-bodyW, -bodyH, 2 * bodyW, bodyH);
     //painter->drawRect(-12, -48, 24, 48);
 
     // Рисуем нос ракеты
     QPolygonF nose;
-    nose << QPointF(-bodyW, -bodyH) << QPointF(bodyW, -bodyH) << QPointF(0, -bodyH - 20 * scaleY);
+    nose << QPointF(-bodyW, -bodyH) << QPointF(bodyW, -bodyH) << QPointF(0, -bodyH - 20 * scale);
     painter->setBrush(Qt::gray);
     painter->drawPolygon(nose);
 
@@ -129,11 +132,11 @@ void RocketSceneFinal::paintRocket(QPainter *painter, double scaleX, double scal
 
 
 
-    double engineW = 6 * scaleX;
-    double engineH = 6 * scaleY;
+    double engineW = 6 * scale;
+    double engineH = 6 * scale;
     painter->setBrush(Qt::yellow);
-    painter->drawRect(-10 * scaleX, 0, engineW, engineH);
-    painter->drawRect(4 * scaleX, 0, engineW, engineH);
+    painter->drawRect(-10 * scale, 0, engineW, engineH);
+    painter->drawRect(4 * scale, 0, engineW, engineH);
 
     //painter->setBrush(Qt::yellow);
     //painter->drawRect(-10, 0, 6, 6);
@@ -163,22 +166,22 @@ void RocketSceneFinal::paintRocket(QPainter *painter, double scaleX, double scal
 
 
     painter->setBrush(Qt::darkGray);
-    painter->drawEllipse(QPointF(0, 5 * scaleX), 4 * scaleX, 6 * scaleY);
+    painter->drawEllipse(QPointF(0, 5 * scale), 4 * scale, 6 * scale);
 
     // Огонь если в воздухе
     if (in_air) {
         painter->setBrush(QColor(255, 165, 0)); // оранжевый
         QPolygonF flame;
-        flame << QPointF(-10 * scaleX, 5 * scaleY)
-              << QPointF(10 * scaleX, 5 * scaleY)
-              << QPointF(0, 20 * scaleY);
+        flame << QPointF(-10 * scale, 5 * scale)
+              << QPointF(10 * scale, 5 * scale)
+              << QPointF(0, 20 * scale);
         painter->drawPolygon(flame);
 
         painter->setBrush(Qt::yellow);
         QPolygonF innerFlame;
-        innerFlame << QPointF(-6 * scaleX, 6 * scaleY)
-                   << QPointF(6 * scaleX, 6 * scaleY)
-                   << QPointF(0, 15 * scaleY);
+        innerFlame << QPointF(-6 * scale, 6 * scale)
+                   << QPointF(6 * scale, 6 * scale)
+                   << QPointF(0, 15 * scale);
         painter->drawPolygon(innerFlame);
     }
 }
