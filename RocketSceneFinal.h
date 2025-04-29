@@ -9,7 +9,7 @@ class RocketSceneFinal: public QWidget
 
 public:
     RocketSceneFinal(QWidget *parent = 0);
-    void paintRocket(QPainter *painter, double scaleX, double scaleY);
+    void paintRocket(QPainter *painter, double scale);
     void setPositionUpdate(int x, int y);
     //void resizeEvent(QResizeEvent *event) override;
     QSize sizeHint() const;
