@@ -20,6 +20,8 @@ RocketSceneFinal::RocketSceneFinal(QWidget *parent){
     this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     lastHeight = 0.0;
     lastWidth = 0.0;
+    rightEngine = false;
+    leftEngine = false;
     update();
 
 }
@@ -122,13 +124,30 @@ void RocketSceneFinal::paintRocket(QPainter *painter, double scale) {
     painter->drawRect(-bodyW, -bodyH, 2 * bodyW, bodyH);
     //painter->drawRect(-12, -48, 24, 48);
 
+    double tryskaY = -6 * scale;  // высота 42
+    double tryskaSize = 10 * scale;
+
+    painter->setBrush(Qt::darkGray);
+
+    // Левая smerová tryska
+    QPolygonF leftTryska;
+    leftTryska << QPointF(-bodyW, tryskaY - tryskaSize)                        // нижняя точка корпуса
+           << QPointF(-bodyW, tryskaY)                                     // верхняя точка корпуса
+           << QPointF(-bodyW - tryskaSize, tryskaY);                       // внешний верхний угол
+    painter->drawPolygon(leftTryska);
+
+    QPolygonF rightTryska;
+    rightTryska << QPointF(bodyW, tryskaY - tryskaSize)                      // нижняя точка корпуса
+            << QPointF(bodyW, tryskaY)                                   // верхняя точка корпуса
+            << QPointF(bodyW + tryskaSize, tryskaY);                     // внешний верхний угол
+    painter->drawPolygon(rightTryska);
+
     // Рисуем нос ракеты
     QPolygonF nose;
     nose << QPointF(-bodyW, -bodyH) << QPointF(bodyW, -bodyH) << QPointF(0, -bodyH - 20 * scale);
     painter->setBrush(Qt::gray);
     painter->drawPolygon(nose);
 
-    // Рисуем двигатели
 
 
 
@@ -137,6 +156,28 @@ void RocketSceneFinal::paintRocket(QPainter *painter, double scale) {
     painter->setBrush(Qt::yellow);
     painter->drawRect(-10 * scale, 0, engineW, engineH);
     painter->drawRect(4 * scale, 0, engineW, engineH);
+
+    double engineY = 0 + engineH;  // верх сопла + высота сопла
+
+if (leftEngine && in_air) {
+    double engineX = -10 * scale + engineW / 2;  // центр левого сопла
+    painter->setBrush(QColor(255, 140, 0)); // оранжевый
+    QPolygonF leftFlame;
+    leftFlame << QPointF(engineX - 3 * scale, engineY)
+              << QPointF(engineX + 3 * scale, engineY)
+              << QPointF(engineX, engineY + 30 * scale);
+    painter->drawPolygon(leftFlame);
+}
+
+if (rightEngine && in_air) {
+    double engineX = 4 * scale + engineW / 2;  // центр правого сопла
+    painter->setBrush(QColor(255, 140, 0)); // оранжевый
+    QPolygonF rightFlame;
+    rightFlame << QPointF(engineX - 3 * scale, engineY)
+               << QPointF(engineX + 3 * scale, engineY)
+               << QPointF(engineX, engineY + 30 * scale);
+    painter->drawPolygon(rightFlame);
+}
 
     //painter->setBrush(Qt::yellow);
     //painter->drawRect(-10, 0, 6, 6);
