@@ -359,6 +359,8 @@ void ControlPanel::onDataReceived()
 
         double factor = sqrt(pow(vx, 2) + pow(vy, 2));
         sibka->update_arrow(round(((scene->rotation)) * 100) / 100, factor * 5);
+
+        reply->deleteLater();
     }
 }
 
@@ -549,6 +551,8 @@ void ControlPanel::post_reset()
 
 void ControlPanel::onError(QNetworkReply::NetworkError code)
 {
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    reply ->deleteLater();
     scene->isconnected = false;
     connection->setText("Connection state: " + QVariant(scene->isconnected).toString());
     checkbox_left->setEnabled(false);
