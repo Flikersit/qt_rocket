@@ -110,9 +110,6 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     coordinate_widget->setFixedSize(130, 120);
     coordinate_widget->setLayout(coordinate_layout);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    QVBoxLayout *vlayout = new QVBoxLayout(this);
-
     // Taying to create Bar: Begin
     vSet = new QBarSet("V");
     *vSet << 0 << 0;
@@ -219,15 +216,11 @@ ControlPanel::ControlPanel(QWidget *parent, RocketSceneFinal *scene)
     inputWidth->setEnabled(false);
 
     timer.start(100);
-    qDebug()<<"Width: " << width();
-    qDebug()<<"Height: " << height();
 }
 
 
 void ControlPanel::ontimeout(){
     vykreslit = true;
-    qDebug()<<"Width: " << width();
-    qDebug()<<"Height: " << height();
     requestData();
 }
 
@@ -246,21 +239,32 @@ void ControlPanel::requestData()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
     request.setSslConfiguration(conf);
 
     QNetworkReply *reply = networkManager->get(request);
-
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::onDataReceived);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::onDataReceived);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            onDataReceived(reply);
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
-void ControlPanel::onDataReceived()
+void ControlPanel::onDataReceived(QNetworkReply *reply)
 {
 
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    //QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
     QByteArray data = reply->readAll();
     QString str(data);
     //qDebug() << "Geted data from server " << str;
@@ -272,7 +276,6 @@ void ControlPanel::onDataReceived()
 
         if (!jResponse.contains("subitems"))
         {
-            qDebug() << "Do not consist subitems";
         }
         checkbox_left->setEnabled(true);
         checkbox_right->setEnabled(true);
@@ -303,7 +306,7 @@ void ControlPanel::onDataReceived()
         //qDebug() << "Ryclost po ose x GRAF" << vx;
         vSet->replace(0, abs(vx));
         vSet->replace(1, abs(vy));
-        chart->update();
+        //chart->update();
 
         scene->aspectratio = height/width;
 
@@ -353,14 +356,13 @@ void ControlPanel::onDataReceived()
             last_w = width;
             
             this->resetSim();
-            qDebug()<<"There";
         }
 
 
         double factor = sqrt(pow(vx, 2) + pow(vy, 2));
         sibka->update_arrow(round(((scene->rotation)) * 100) / 100, factor * 5);
 
-        reply->deleteLater();
+        //reply->deleteLater();
     }
 }
 
@@ -378,6 +380,8 @@ void ControlPanel::post_left_thruster()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -391,8 +395,18 @@ void ControlPanel::post_left_thruster()
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
     vykreslit = false;
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            requestData();
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
 void ControlPanel::post_right_thruster()
@@ -409,6 +423,8 @@ void ControlPanel::post_right_thruster()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -424,8 +440,18 @@ void ControlPanel::post_right_thruster()
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
     vykreslit = false;
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            requestData();
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
 void ControlPanel::post_main_engine()
@@ -442,6 +468,8 @@ void ControlPanel::post_main_engine()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -455,8 +483,18 @@ void ControlPanel::post_main_engine()
 
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
     vykreslit = false;
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            requestData();
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
 void ControlPanel::post_height()
@@ -473,6 +511,8 @@ void ControlPanel::post_height()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -485,8 +525,18 @@ void ControlPanel::post_height()
     payload += "}";
     vykreslit = false;
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            requestData();
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
 void ControlPanel::post_width()
@@ -503,6 +553,8 @@ void ControlPanel::post_width()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -515,8 +567,18 @@ void ControlPanel::post_width()
     payload += "}";
     vykreslit = false;
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            requestData();
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
 void ControlPanel::post_reset()
@@ -533,6 +595,8 @@ void ControlPanel::post_reset()
     QString headerData = "Basic " + data;
     request.setRawHeader("Authorization", headerData.toLocal8Bit());
     request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Connection", "close");
+
 
     QSslConfiguration conf = request.sslConfiguration();
     conf.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -545,14 +609,24 @@ void ControlPanel::post_reset()
     payload += "}";
     vykreslit = false;
     QNetworkReply *reply = networkManager->post(request, payload.toUtf8());
-    connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
-    connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    //connect(reply, &QNetworkReply::finished, this, &QNetworkReply::deleteLater);
+    //connect(reply, &QNetworkReply::readyRead, this, &ControlPanel::requestData);
+    //connect(reply, &QNetworkReply::errorOccurred, this, &ControlPanel::onError);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            onError(reply->error());
+        } else {
+            requestData();
+        }
+        //reply->manager()->clearAccessCache();
+        reply->deleteLater();
+    });
 }
 
 void ControlPanel::onError(QNetworkReply::NetworkError code)
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-    reply ->deleteLater();
+    //QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    //reply ->deleteLater();
     scene->isconnected = false;
     connection->setText("Connection state: " + QVariant(scene->isconnected).toString());
     checkbox_left->setEnabled(false);
@@ -626,16 +700,16 @@ void ControlPanel::resetSim()
     this->post_reset();
 }
 
-void ControlPanel::update_sizeW()
-{
-    int newWidth = inputWidth->text().toInt();
-    scene->resize(newWidth, scene->height());
-}
+ void ControlPanel::update_sizeW()
+ {
+     int newWidth = inputWidth->text().toInt();
+     scene->resize(newWidth, scene->height());
+ }
 
-void ControlPanel::update_sizeH(){
-    int newHight = inputHeight->text().toInt();
-    scene->resize(scene->width(), newHight);
-}
+ void ControlPanel::update_sizeH(){
+     int newHight = inputHeight->text().toInt();
+     scene->resize(scene->width(), newHight);
+ }
 
 void ControlPanel::resizeEvent(QResizeEvent *event)
 {
