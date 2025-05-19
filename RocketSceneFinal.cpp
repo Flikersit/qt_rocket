@@ -92,16 +92,13 @@ void RocketSceneFinal::paintEvent(QPaintEvent *evnt){
 
     if(in_platform & serverHeight == 0.0 & serverWidth == 0.0){
         x = -real_width/2 + launchPadOffSet;
-        qDebug()<< "disconnect";
 
     }else{
         if (serverHeight == 0.0 & serverWidth == 0.0){
-            qDebug()<<"Wscale=1";
             Wscale = 1.0;
             Hscale = 1.0;
         }
     }
-    qDebug()<<"Wscale: "<< Wscale;
     painter.translate(x*Wscale + 25*uniformscale, y*Hscale + 5*uniformscale);
     painter.translate(0, 42*uniformscale);
     painter.rotate(rotation);
