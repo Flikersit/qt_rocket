@@ -72,7 +72,7 @@ public:
 public slots:
         void ontimeout();
         void requestData();
-        void onDataReceived();
+        void onDataReceived(QNetworkReply *reply);
         void post_main_engine();
         void post_left_thruster();
         void post_right_thruster();
